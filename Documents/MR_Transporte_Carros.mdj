@@ -580,7 +580,7 @@
 									"font": "Arial;13;1",
 									"left": 744,
 									"top": 261,
-									"width": 111.61181640625,
+									"width": 165.8271484375,
 									"height": 13,
 									"text": "rol"
 								},
@@ -606,7 +606,7 @@
 											"font": "Arial;13;0",
 											"left": 749,
 											"top": 284,
-											"width": 101.61181640625,
+											"width": 155.8271484375,
 											"height": 13
 										},
 										{
@@ -621,21 +621,21 @@
 											"font": "Arial;13;0",
 											"left": 749,
 											"top": 299,
-											"width": 101.61181640625,
+											"width": 155.8271484375,
 											"height": 13
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 744,
 									"top": 279,
-									"width": 111.61181640625,
+									"width": 165.8271484375,
 									"height": 38
 								}
 							],
 							"font": "Arial;13;0",
 							"left": 744,
 							"top": 256,
-							"width": 111.61181640625,
+							"width": 165.8271484375,
 							"height": 61,
 							"nameLabel": {
 								"$ref": "AAAAAAFzbegw5iaSrPw="
@@ -1236,7 +1236,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFzbdNxkiZD604="
 							},
-							"name": "fecha_inicio",
+							"name": "fechainicio",
 							"type": "datetime",
 							"length": 0
 						},
@@ -1246,7 +1246,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFzbdNxkiZD604="
 							},
-							"name": "fecha_termino",
+							"name": "fechatermino",
 							"type": "datetime",
 							"length": 0
 						},
@@ -1318,7 +1318,7 @@
 							},
 							"name": "placa",
 							"type": "varchar",
-							"length": "100",
+							"length": "20",
 							"primaryKey": true
 						},
 						{
@@ -1640,7 +1640,8 @@
 								"$ref": "AAAAAAFzbegw5iaPrGs="
 							},
 							"name": "nombre",
-							"length": 0
+							"type": "varchar",
+							"length": "50"
 						}
 					]
 				},
