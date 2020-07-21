@@ -7,41 +7,51 @@ class Controller extends Authentication
         parent::__construct();
     }
 
-    private function httpResponseError()
+    protected function httpResponseError($description = "",$type = "")
     {
-        return ["http" => [
-            "description" => "Error, source not found, Access denied",
+        if(empty($description)){
+            $description = "Error, source not found. Access denied";
+        }
+        
+        if(empty($type)){
+            $type = "Error. Access denied";
+        }
+            
+        return new ConvertJSON(["response" => [
+            "protocol" => "http",
+            "description" => $description,
             "state" => 404,
-            "type" => "Error",
-            "suggest" => "try do loggin",
-        ]];
-    }
-    protected function httpResponse()
-    {
-        return [
-            "state" => 200,
-            "type" => "success",
-        ];
+            "type" => $type,
+            "suggest" => "try do loggin"
+        ]
+    ]);
     }
 
-    protected function verify_authentication($type = "PRIMARY_AUTHENTICATION")
+    protected function httpResponse()
     {
-        switch ($type) {
-            case "PRIMARY_AUTHENTICATION":
-                if (!$this->checkSession()) {
-                    $this->redirect("auth");
-                    // echo json_encode($this->httpResponseError());
-                    exit();
-                }
-                break;
-            case "SECONDARY_AUTHENTICATION":
-                if ($this->checkSession()) {
-                    $this->redirect("main");
-                    exit();
-                }
-                break;
-            default;
-                exit("Error param. Verify Authentication");
+        return new ConvertJSON([
+            "response"=>[
+                "protocol" => "http",
+                "state" => 200,
+                "type" => "success"
+            ]
+        ]);
+    }
+    protected function httpResponseErrorAuth()
+    {
+        return new ConvertJSON(["response" => [
+            "protocol" => "http",
+            "description" => "Error of authentication",
+            "state" => 403,
+            "type" => "Error",
+            "suggest" => "try do loggin"
+        ]
+    ]);
+    }
+    protected function verify_authentication()
+    {
+        if (!$this->checkSession()) {
+            exit($this->httpResponseErrorAuth()->json());
         }
 
     }
@@ -54,18 +64,6 @@ class Controller extends Authentication
             return new $model();
         } else {
             exit("Modelo no encontrado");
-        }
-    }
-
-    protected function entity($entity)
-    {
-
-        $model = ucwords($entity);
-        if (file_exists("../app/models/entities/" . $entity . ".php")) {
-            require_once "../app/models/entities/" . $entity . ".php";
-            return new $entity();
-        } else {
-            exit("Entidad o VO no encontrado");
         }
     }
 

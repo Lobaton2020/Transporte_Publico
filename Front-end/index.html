@@ -22,20 +22,30 @@
     <script src="app/libs/mylibrary.js"></script>
     <script src="app/route.routes.js"></script>
     <script type="module" id="controller"></script>
-    <!-- <button id="go">Go</button>
+    <input type="file" name="image" id="image">
+    <button id="go">Go</button>
     <script>
         let dato = lob.getById("go");
+        let URL = "http://localhost/SENA/5_Trim_PHP_SENA/Proyecto_Transporte_Publico/Back-end/";
 
         function removeEvent(e) {
-            console.log("Este es el manejador del evento")
-        }
-
-        function remove(e) {
-            console.log("Esto no es nada")
+            let datos = new FormData();
+            datos.append("idrol", "1");
+            datos.append("nombrecompleto", "juan andres");
+            datos.append("email", "andres@gmai.com");
+            datos.append("contrasena", "123456");
+            datos.append("imagen", lob.getById("image").files[0]);
+            datos.append("telefono", 12345);
+            let options = {
+                "method": "post",
+                "body": datos
+            };
+            fetch(URL + "rol/all", options)
+                .then(response => response.json())
+                .then(result => console.log(result))
         }
         dato.addEventListener("click", removeEvent);
-        dato.removeEventListener("click", removeEvent);
-    </script> -->
+    </script>
     <!-- importacion de librerias -->
     <script src="app/libs/jquery/jquery.min.js"></script>
     <script src="app/libs/bootstrap/js/bootstrap.min.js"></script>

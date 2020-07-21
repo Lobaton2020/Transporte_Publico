@@ -13,7 +13,8 @@ class Core
         $this->method = isset($this->params[1]) ? $this->getMethod($this->params[1]) : $this->getMethod();
         
         $this->params = $this->params ? array_values($this->params) : [];
-        call_user_func_array([$this->controller, $this->method], $this->params);    
+        //imprime lo que se retorna
+        echo call_user_func_array([$this->controller, $this->method], $this->params);   
     }
 
     private function getController($controller = null, $index = 0)

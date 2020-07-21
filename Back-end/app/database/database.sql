@@ -1,4 +1,3 @@
-
 create database transpublic;
 use transpublic;
 
@@ -32,7 +31,7 @@ create table contrato (
 );
 
 create table bus (
-    placa varchar(20) not null auto_increment, 
+    placa varchar(20) not null , 
     idusuario int not null,
     color varchar(50) not null,
     modelo varchar(10) not null,
@@ -52,11 +51,11 @@ create table ruta (
 
 create table rutabus (
     idruta int not null, 
-    idbus int not null,
+    idbus varchar(20) not null,
     fechapartida datetime not null,
     fechallegada datetime not null,
-    foreign key ( idruta ) references ruta ( idruta )
-    foreign key ( idbus ) references bus ( idbus )
+    foreign key ( idruta ) references ruta ( idruta ),
+    foreign key ( idbus ) references bus ( placa )
 );
 
 
