@@ -3,7 +3,7 @@
 define("DBHOST", "localhost");
 define("DBNAME", "transpublic");
 define("DBUSER", "root");
-define("DBPASWORD", "");
+define("DBPASWORD", "monserrate1010");
 define("DBDRIVER", "mysql");
 define("DBCHARSET", "utf8");
 

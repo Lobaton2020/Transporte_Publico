@@ -68,7 +68,6 @@
             manejadorRutas: function() {
                 let hash = window.location.hash.substring(1) || "/";
                 let destino = rutas[hash];
-
                 if (destino && destino.plantilla) {
                     marco.innerHTML = "";
                     destino.plantilla.map(function(plantilla, i) {
@@ -148,10 +147,10 @@
     ];
     // espera del evento load del navegador y ajuste de la libreria
     window.addEventListener("load", (e) => {
-
         lob.loader = loader;
         lob.predefinido = predefinido;
         lob.manejadorRutas();
+        window._ = lob;
     }, false);
 })(window, document);
 

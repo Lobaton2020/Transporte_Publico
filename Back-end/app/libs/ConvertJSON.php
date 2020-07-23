@@ -13,6 +13,11 @@ class ConvertJSON {
     }
 
     public function normal(){
-        return (Object)$this->data;
+        if(!empty($this->data)){
+            if(count($this->data) == 1){
+                return $this->data[0];
+            }
+            }
+        return $this->data;
     }
 }

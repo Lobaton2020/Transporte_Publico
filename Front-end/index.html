@@ -27,20 +27,32 @@
     <script>
         let dato = lob.getById("go");
         let URL = "http://localhost/SENA/5_Trim_PHP_SENA/Proyecto_Transporte_Publico/Back-end/";
+        let tipo = ["contract/all", "contract/get/", "contract/save", "contract/renew"];
+        // tipo = ["bus/all", "bus/get/", "bus/save"];
+
+        function addFormData(array) {
+            var data = new FormData();
+            for (let i in array) {
+                data.append("data" + i, array[i]);
+            }
+            return data;
+        }
+
 
         function removeEvent(e) {
-            let datos = new FormData();
-            datos.append("idrol", "1");
-            datos.append("nombrecompleto", "juan andres");
-            datos.append("email", "andres@gmai.com");
-            datos.append("contrasena", "123456");
-            datos.append("imagen", lob.getById("image").files[0]);
-            datos.append("telefono", 12345);
+            // console.log(lob.getById("image").files[0]);
+            // let array = ["3", "Andres lobaton", "andres123@gmail.com", "colombia123", lob.getById("image").files[0], "3124567834"];
+            // let array = ["andres12@gmail.com", "colombia123"];
+            let array = ["2", "MCZ-123", "2000-12-12 23:34:12", "2000-12-12 23:34:12"];
+
+            // let array = ["El viaje largo", "Bogota", "Villavo"];
+            let datos = addFormData(array);
             let options = {
                 "method": "post",
                 "body": datos
             };
-            fetch(URL + "rol/all", options)
+
+            fetch(URL + "routebus/save", options)
                 .then(response => response.json())
                 .then(result => console.log(result))
         }

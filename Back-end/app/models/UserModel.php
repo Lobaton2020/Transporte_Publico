@@ -7,4 +7,5 @@ class UserModel extends Orm
         parent::__construct("usuario");
     }
 
+
 }
