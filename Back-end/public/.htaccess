@@ -1,7 +1,7 @@
 <IfModule mod_rewrite.c>
     Options -Multiviews
     RewriteEngine On
-    RewriteBase  /SENA/5_Trim_PHP_SENA/Proyecto_Transporte_Publico/Back-end/public/
+    RewriteBase  /Transporte_Publico/Back-end/public/
     RewriteCond  %{REQUEST_FILENAME}  !-d
     RewriteCond  %{REQUEST_FILENAME}  !-f
     RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]

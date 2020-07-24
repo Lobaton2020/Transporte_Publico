@@ -8,6 +8,6 @@ define("DBDRIVER", "mysql");
 define("DBCHARSET", "utf8");
 
 define("URL_APP", dirname(dirname(__FILE__)));
-define("URL_PROJECT", "http://localhost/SENA/5_Trim_PHP_SENA/Proyecto_Transporte_Publico/Back-end/");
+define("URL_PROJECT", "http://localhost//Transporte_Publico/Transporte_Publico/Back-end/");
 
 //datos de la empresa o cliente

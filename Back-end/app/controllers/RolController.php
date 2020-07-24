@@ -6,7 +6,7 @@ class RolController extends Controller{
     {
         parent::__construct();
         $this->model = $this->model("rol");
-        $this->verify_authentication();
+        //$this->verify_authentication();
     }
 
     public function all(){
