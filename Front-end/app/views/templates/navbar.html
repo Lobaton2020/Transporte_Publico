@@ -7,6 +7,53 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link active" href="#/"> <span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link active" href="#/links">Links</a>
+            <a class="nav-item nav-link active" href="#/bus/create">Crear bus</a>
         </div>
     </div>
 </nav>
+
+<!-- 
+<input type="file" name="image" id="image">
+<button id="go">Go</button>
+<script>
+    let dato = lob.getById("go");
+    let URL = "http://localhost/SENA/5_Trim_PHP_SENA/Proyecto_Transporte_Publico/Back-end/";
+    let tipo = ["contract/all", "contract/get/", "contract/save", "contract/renew"];
+    // tipo = ["bus/all", "bus/get/", "bus/save"];
+
+    function addFormData(array) {
+        var data = new FormData();
+        for (let i in array) {
+            data.append("data" + i, array[i]);
+        }
+        return data;
+    }
+
+
+    function removeEvent(e) {
+        // console.log(lob.getById("image").files[0]);
+        // let array = ["3", "Andres lobaton", "andres123@gmail.com", "colombia123", lob.getById("image").files[0], "3124567834"];
+        let array = ["andres12@gmail.com", "colombia123"];
+        // let array = ["2", "MCZ-123", "2000-12-12 23:34:12", "2000-12-12 23:34:12"];
+
+        // let array = ["El viaje largo", "Bogota", "Villavo"];
+        let datos = addFormData(array);
+        let options = {
+            "method": "post",
+            "body": datos
+        };
+        var roles = "";
+        fetch(URL + "rol/all", options)
+            .then(response => response.json())
+            .then(result => {
+                for (let rol of result) {
+                    roles += "<tr><td>" + rol.nombre + "</td></tr>";
+                }
+                document.getElementById("roles").innerHTML = roles
+                console.log(roles)
+            })
+    }
+    dato.addEventListener("click", removeEvent);
+</script>
+
+</div> -->

@@ -59,3 +59,13 @@ create table rutabus (
 );
 
 
+
+-- phpMyAdmin SQL Dump
+-- version 5.0.1
+-- https://www.phpmyadmin.net/
+
+-- Tiempo de generación: 24-07-2020 a las 17:02:43
+INSERT INTO `rol` (`idrol`, `nombre`) VALUES
+(1, 'Coordinador Administrativo'),
+(2, 'Coordinador de Rutas'),
+(3, 'Conductor');
