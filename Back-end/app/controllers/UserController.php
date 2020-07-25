@@ -1,57 +1,180 @@
 <?php
 
-class UserController extends Controller
+class UserController extends Controller implements Crud, User
 {
     private $model;
     public function __construct()
     {
         parent::__construct();
         $this->model = $this->model("user");
-        $this->setSession(["nombre" =>"Juan perez"]);
-        // $this->verify_authentication();
+        //$this->verify_authentication();
     }
-    
+
     public function all()
     {
+        $this->rol_conductor_not_access();
         return $this->model->getAll()->json();
     }
 
-
-    public function get($id){
-        try{
-            $data = $this->model->getById("idusuario",$id)->json();
-            if(empty(toArray($data))):
-                  throw new Exception("Error");
-             endif; 
-             return $data;
-        }catch(Exception $e){
-            return $this->httpResponseError()->json();
+    public function get($id)
+    {
+        try {
+            if ($this->id != $id) {
+                $this->rol_conductor_not_access();
+            }
+            $data = $this->model->getBy("idusuario", $id)->json();
+            if (empty(toArray($data))):
+                throw new Exception("Error");
+            endif;
+            return $data;
+        } catch (Exception $e) {
+            return $this->httpResponse("error", "fieldnotfound", "Field not found", 404)->json();
         }
-     }
+    }
 
-    public function save(){
+    public function save()
+    {
+        //$this->rol_conductor_not_access();
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-         if($_SERVER["REQUEST_METHOD"] == "POST"){
-            $datos = $_POST;
-            $imagen = $_FILES;
-            foreach($datos as $data){
-                if(empty($data) || empty($imagen)){
-                    return $this->httpResponseError("empty fileds","Fields Client")->json();
-                    break;
-                }
+            $datos = array_values($_POST);
+            $imagen = array_values($_FILES);
+            $imagen = isset($imagen[0]) ? $imagen[0] : "";
+
+            if (is_fieldEmpty($datos)) {
+                return $this->httpResponse("error", "fieldempty", "empty fileds client")->json();
             }
-            if(filter_var($datos["email"],FILTER_VALIDATE_EMAIL)){
+            if (empty($imagen)) {
+                return $this->httpResponse("error", "imagenotfound", "image not send from client")->json();
+            }
+            if (filter_var($datos[2], FILTER_VALIDATE_EMAIL) && empty($this->model->getBy("correo", $datos[2])->normal())) {
+
+                if (strlen(end($datos)) > 20) {
+                    return $this->httpResponse("error", "invalidcellphone", "not more of 20 characters of number the cellphone", 400)->json();
+                }
                 $fields = Tables::getFiedsUsers();
-                if($this->model->save($fields,$datos)){
-                    return $this->httpResponse()->json();
-                }else{
-                    return $this->httpResponseError()->json();
+                $nameImg = $imagen["name"];
+                array_push($datos, $datos[4]);
+                $id = intval($this->model->maxId("idusuario")->maxid) + 1;
+                $ruta = "./images/" . $id . "_user_img/";
+                $datos[4] = $ruta . $nameImg;
+                $datos[3] = password_hash($datos[3], PASSWORD_BCRYPT);
+
+                if (!file_exists($ruta)) {
+                    mkdir($ruta, 0777, true);
                 }
-            }else{
-                return $this->httpResponseError()->json();
+                if (move_uploaded_file($imagen["tmp_name"], $ruta . $nameImg)) {
+                    if ($this->model->save($fields, $datos)) {
+                        return $this->httpResponse("ok", "registered", "user registered successfully", 201)->json();
+                    } else {
+                        return $this->httpResponse("error", "notregistered", "user not registered")->json();
+                    }
+                } else {
+                    return $this->httpResponse("error", "imagenotsaved", "the image is not storage")->json();
+                }
+            } else {
+                return $this->httpResponse("error", "invalidemail", " the email is invalid")->json();
             }
-         }else{
-            return $this->httpResponseError()->json();
-         }
-     }
+        } else {
+            return $this->httpResponse("error", "invalidmethod", "The method should be POST not GET")->json();
+        }
+    }
+
+    public function update($type, $id = null)
+    {
+
+        if ($this->id != $id) {
+            $this->rol_conductor_not_access();
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            switch ($type) {
+                case "text":
+                    if ($this->rol != 3) { // representa al rol de conducor
+                        ($id != null) ? $this->id = $id : "";
+                    }
+                    return $this->updateText($_POST);
+                    break;
+                case "pass":
+                    return $this->updatePassword($_POST);
+                    break;
+                case 'image':
+                    return $this->updateImage($_FILES);
+                    break;
+                default:
+                    return $this->httpResponse("error", "parammethod", "The server not known that do")->json();
+            }
+
+        } else {
+            return $this->httpResponse("error", "invalidmethod", "The method should be POST not GET")->json();
+        }
+    }
+
+    public function updateText($datos)
+    {
+
+        $datos = array_values($datos);
+        foreach ($datos as $data) {
+            if (empty($data)) {
+                return $this->httpResponse("error", "fieldempty", "empty fileds client")->json();
+                break;
+            }
+        }
+        if (filter_var($datos[1], FILTER_VALIDATE_EMAIL) && count($this->model->getBy("correo", $datos[1])->normal()) < 2) {
+
+            $fields = ["usuario", "nombrecompleto", "correo", "telefono"];
+            if ($this->model->update($fields, $datos, ["idusuario", $this->id])) {
+                $this->updateSession([$this->name, $datos[1], $this->image]);
+                return $this->httpResponse("ok", "updated", "user updated successfully", 201)->json();
+            } else {
+                return $this->httpResponse("error", "notupdated", "user not updated")->json();
+            }
+        } else {
+            return $this->httpResponse("error", "invalidemail", " the email is invalid")->json();
+        }
+
+    }
+
+    public function updatePassword($data)
+    {
+        $password = array_values($data)[0];
+        if (strlen($password) < 100) {
+            $password = password_hash($password, PASSWORD_BCRYPT);
+            if ($this->model->update(["usuario", "contrasena"], [$password], ["idusuario", $this->id])) {
+                return $this->httpResponse("ok", "updated", "password updated successfully", 201)->json();
+            } else {
+                return $this->httpResponse("error", "notupdated", "password not updated")->json();
+            }
+        } else {
+            return $this->httpResponse("error", "invalidpassword", "number of characters is more of 100")->json();
+        }
+    }
+
+    public function updateImage($img)
+    {
+        if (empty($img)) {
+            return $this->httpResponse("error", "imagenotfound", "image not send from client")->json();
+        }
+        $imagen = array_values($img)[0];
+        $lastImg = $this->model->getBy("idusuario", $this->id)->normal()->imagen;
+        $
+        $newImg = str_replace("%" . basename($lastImg) . "%", $imagen["name"], $lastImg);
+
+        if (unlink($lastImg)) {
+            if (move_uploaded_file($imagen["tmp_name"], $newImg)) {
+                if ($this->model->update(["usuario", "imagen"], [$newImg], ["idusuario", $this->id])) {
+                    $this->updateSession([$this->name, $this->email, $newImg]);
+                    return $this->httpResponse("ok", "updated", "the imagen is updated", 500)->json();
+                } else {
+                    return $this->httpResponse("error", "notupdated", "error in server (save imag in DB)", 500)->json();
+                }
+            } else {
+                return $this->httpResponse("error", "errorimage", "error in server (ulpload image)", 500)->json();
+            }
+
+        } else {
+            return $this->httpResponse("error", "notupdated", "error in server (delete image old)", 500)->json();
+        }
+    }
+
 }

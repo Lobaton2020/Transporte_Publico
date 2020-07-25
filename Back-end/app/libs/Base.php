@@ -74,7 +74,7 @@ class Base extends PDO
 
     protected function columnCount()
     {
-        return $this->stmt->rowCount();
+        return $this->stmt->columnCount();
     }
 
 }

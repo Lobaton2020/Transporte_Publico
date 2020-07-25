@@ -1,41 +1,41 @@
 <?php
-class BusController extends Controller implements Crud, Bus
+
+class ContractController extends Controller implements Crud, Contract
 {
 
-    private $bus;
+    private $model;
     public function __construct()
     {
         parent::__construct();
         $this->verify_authentication();
-        $this->model = $this->model("bus");
+        $this->rol_coor_routes_not_access();
+        $this->model = $this->model("contract");
+
     }
 
     public function all()
     {
         $this->rol_conductor_not_access();
-
         $user = $this->model("user");
         $datos = $this->model->getAll()->normal();
         $datos = (is_array($datos)) ? $datos : [$datos];
 
-        foreach ($datos as $dato) {
-            $dato->usuario = $user->getBy("idusuario", $dato->idusuario)->normal();
+        foreach ($datos as $item) {
+            $item->usuario = $user->getBy("idusuario", $item->idusuario)->normal();
         }
         return toJSON($datos);
     }
 
-    public function get($placa)
+    public function get($id)
     {
+
         $user = $this->model("user");
         try {
-            $data = $this->model->getBy("placa", $placa)->normal();
+            $data = $this->model->getBy("idcontrato", $id)->normal();
             if (empty($data)):
                 throw new Exception("Error");
             endif;
             $data->usuario = $user->getBy("idusuario", $data->idusuario)->normal();
-            if (($data->usuario->idusuario != $this->id && $this->rol == 3)) {
-                return $this->httpResponse("error", "notpermission", "you do not have access", 404)->json();
-            }
             return toJSON($data);
         } catch (Exception $e) {
             return $this->httpResponse("error", "fieldnotfound", "Field not found", 404)->json();
@@ -44,29 +44,18 @@ class BusController extends Controller implements Crud, Bus
 
     public function save()
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $this->rol_conductor_not_access();
 
-            $user = $this->model("user");
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $datos = array_values($_POST);
             if (is_fieldEmpty($datos)) {
                 return $this->httpResponse("error", "fieldempty", "empty fileds client")->json();
             }
-
-            $fields = unitArray(["invalid"], Tables::getFiedsBuses());
-            if (!$this->model->exist(["placa", $datos[0]])) {
-
-                if ($user->exist(["idusuario", $datos[1]])) {
-
-                    if ($this->model->save($fields, $datos)) {
-                        return $this->httpResponse("ok", "registered", "bus registered success")->json();
-                    } else {
-                        return $this->httpResponse("error", "notregistered", "bus not registered")->json();
-                    }
-                } else {
-                    return $this->httpResponse("error", "notexistsregister", "the user not exists")->json();
-                }
+            $fields = Tables::getFiedsContracts();
+            if ($this->model->save($fields, $datos)) {
+                return $this->httpResponse("ok", "registered", "contract registered success")->json();
             } else {
-                return $this->httpResponse("error", "alreadyexistregister ", "the bus already exists")->json();
+                return $this->httpResponse("error", "notregistered", "contract not registered")->json();
             }
 
         } else {
@@ -74,7 +63,7 @@ class BusController extends Controller implements Crud, Bus
         }
     }
 
-    public function update()
+    public function renew()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $datos = array_values($_POST);

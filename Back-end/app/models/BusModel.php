@@ -6,4 +6,6 @@ class BusModel extends Orm{
     {   
         parent::__construct("bus");
     }
+
+
 }
