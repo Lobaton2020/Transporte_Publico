@@ -1,28 +1,33 @@
-const UserService = { // este objeto es usado como clase
-    url: "http://localhost/SENA/5_Trim_PHP_SENA/Proyecto_Transporte_Publico/Back-end/",
+import config from "../libs/default.js";
+
+export default {
+    url: config.urlApi,
     users: [],
     link: [],
-    crear: function(datos) {
-
-        return new Promise(function(resolve, reject) {
-
-            if (datos.url !== "") {
-                LinkService.links.push(datos);
-                resolve(true);
-            } else {
-                resolve(false);
-            }
-
-        });
+    create: async function(datos) {
+        return fetch(this.url + "user/save", {
+                method: "post",
+                body: datos
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.response.type == "registered") {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
     },
     list: async function() {
         return fetch(this.url + "user/all")
             .then(response => response.json())
             .then(result => result);
+    },
+    listRoles: async function() {
+        return fetch(this.url + "rol/all")
+            .then(response => response.json())
+            .then(result => result);
     }
 
+
 };
-
-
-
-export { UserService }

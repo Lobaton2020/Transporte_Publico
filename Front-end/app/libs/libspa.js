@@ -76,16 +76,13 @@
                             .then((text) => {
                                 marco.innerHTML += text;
                                 if (i < 1) {
-                                    document.getElementById("controller").setAttribute("src", "app/controllers/" + destino.controlador + ".controller.js");
-                                    setTimeout(() => {
-                                        if (destino.controlador) {
-                                            ctrlActual = controladores[destino.controlador];
-                                        }
-                                        if (typeof(destino.carga) === "function") {
-                                            destino.carga();
-                                        }
-                                    }, 200)
 
+                                    if (destino.controlador) {
+                                        ctrlActual = controladores[destino.controlador];
+                                    }
+                                    if (typeof(destino.carga) === "function") {
+                                        destino.carga();
+                                    }
                                 }
 
                             });
