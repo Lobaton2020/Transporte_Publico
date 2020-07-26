@@ -1,61 +1,81 @@
-<div class="container">
-    <form class="form-horizontal">
-      
-        <fieldset>
-        
-        <!-- Form Name -->
-        <legend>Bus</legend>
-        
-        <!-- Text input-->
-        <div class="form-group">          
-          <label class="col-md-4 control-label" for="textinput">Placa:</label>  
-          <div class="col-md-6 mb-3">
-          <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
-        </div>
-        </div>
-        
-        <!-- Text input-->
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="textinput">ID Usuario:</label>  
-          <div class="col-md-6 mb-3">
-          <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
-          </div>
-        </div>
-        
-        <!-- Text input-->
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="textinput">Color:</label>  
-          <div class="col-md-6 mb-3">
-          <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
-        </div>
-        </div>
-        
-        <!-- Text input-->
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="textinput">Modelo:</label>  
-          <div class="col-md-6 mb-3">
-          <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
-          </div>
-        </div>
-        
-        <!-- Text input-->
-        <div class="form-group">
-          <label class="col-md-4 control-label" for="textinput">Nombre Fabricante:</label>  
-          <div class="col-md-6 mb-3">
-          <input id="textinput" name="textinput" type="text" placeholder="" class="form-control input-md" required="">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Login</title>
+
+</head>
+
+<body class="bg-gradient-primary">
+
+  <img src="transporte publico.jpg">
+
+  <div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Registro usuario</h1>
+                  </div>
+                  <form class="user">
+                    <div class="form-group">
+                      <input type="text" class="form-control form-control-user" id="rol" aria-describedby="emailHelp" placeholder="Id rol">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control form-control-user" id="name" placeholder="Nombre completo">
+                    </div>
+                    <div class="form-group">
+                      <input type="email" class="form-control form-control-user" id="email" placeholder="Correo electrónico">
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control form-control-user" id="password" placeholder="Contraseña">
+                    </div>
+                    <div class="form-group">
+                      <label for="avatar"><b>Selecciona una imágen para tu avatar</b></label>
+                      <input type="file" name="avatar" class="d-block" id="avatar">
+                  </div>
+                    <div class="form-group">
+                      <input type="number" class="form-control form-control-user" id="number" placeholder="Teléfono">
+                    </div>
+                    
+                    <a href="index.html" class="btn btn-primary btn-user btn-block">
+                      Registrarme
+                    </a>
+                    <hr>
+                    <a href="index.html" class="btn btn-google btn-user btn-block">
+                      <i class="fab fa-google fa-fw"></i> Inicia sesión con Google
+                    </a>
+                  </form>
+                  <hr>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-         <!-- Button -->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="singlebutton"></label>
-            <div class="col-md-6 mb-3"></div>
-            <button id="singlebutton" name="singlebutton" class="btn btn-primary">Registrar</button>
-        </div>
-        
-        </fieldset>
-        </form>
-        
-</div>
+      </div>
 
-<DIV ID="user"></DIV>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
