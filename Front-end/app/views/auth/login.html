@@ -1,34 +1,55 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+<body class="bg-gradient-primary">
+  <div class="container">
+    <div class="row justify-content-center">
 
-            <form class="form-signin">
-                <div class="text-center mb-4">
-                    <img class="mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-                    <h1 class="h3 mb-3 font-weight-normal">Floating labels</h1>
-                    <p>Build form controls with floating labels via the <code>:placeholder-shown</code> pseudo-element. <a href="https://caniuse.com/#feat=css-placeholder-shown">Works in latest Chrome, Safari, and Firefox.</a></p>
-                </div>
+      <div class="col-xl-10 col-lg-12 col-md-9">
 
-                <div class="form-label-group">
-                    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-                    <label for="inputEmail">Email address</label>
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Inicio de Sesión</h1>
+                  </div>
+                  <form class="user" id="form-login">
+                    <div class="form-group">
+                      <input type="email" name="email" class="form-control form-control-user" id="email" placeholder="Correo electrónico">
+                    </div>
+                    <div class="form-group">
+                      <input type="password" name="password" class="form-control form-control-user" id="password" placeholder="Contraseña">
+                    </div>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox small">
+                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                        <label class="custom-control-label" for="customCheck">Recuérdame </label>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                      Iniciar sesión
+                    </button>
+                    <!-- <hr> -->
+                    <!-- <button type="submit" class="btn btn-google btn-user btn-block">
+                      <i class="fab fa-google fa-fw"></i> Inicia sesión con Google
+                    </button> -->
+                  </form>
+                  <hr>
+                  <div class="text-center">
+                    <a class="small" href="#/auth/forgot-password">¿Olvidaste la contraseña?</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="small" href="#/auth/register">¡Crea una cuenta!</a>
+                  </div>
                 </div>
-
-                <div class="form-label-group">
-                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
-                    <label for="inputPassword">Password</label>
-                </div>
-
-                <div class="checkbox mb-3">
-                    <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                <p class="mt-5 mb-3 text-muted text-center">© 2017-2020</p>
-            </form>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-3"></div>
+
+      </div>
+
     </div>
-</div>
+
+  </div>
+

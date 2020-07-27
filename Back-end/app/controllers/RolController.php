@@ -9,6 +9,7 @@ class RolController extends Controller implements Crud{
         $this->verify_authentication();
         $this->rol_conductor_not_access();
         $this->rol_coor_routes_not_access();
+        
     }
 
     public function all()

@@ -4,6 +4,20 @@ export default {
     url: vars.urlApi,
     users: [],
     link: [],
+    validate: async function(datos) {
+        return fetch(this.url + "auth/login", {
+                method: "post",
+                body: datos
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.response.type == "logged") {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+    },
     create: async function(datos) {
         return fetch(this.url + "user/save", {
                 method: "post",

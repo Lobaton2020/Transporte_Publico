@@ -7,7 +7,7 @@ class UserController extends Controller implements Crud, User
     {
         parent::__construct();
         $this->model = $this->model("user");
-        $this->verify_authentication();
+        //$this->verify_authentication();
     }
 
     public function all()
@@ -45,7 +45,7 @@ class UserController extends Controller implements Crud, User
 
     public function save()
     {
-        $this->rol_conductor_not_access();
+        //$this->rol_conductor_not_access();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $datos = array_values($_POST);

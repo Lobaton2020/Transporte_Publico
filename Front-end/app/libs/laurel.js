@@ -14,11 +14,12 @@ import vars from "./vars.js";
             let frame = null;
             let routes = {};
             let controllers = [];
-            let currentController = null;
             let library = {
                 url : '',
                 loader: '',
                 defaultComponents: [],
+                currentController: '',
+                authentication : false,
 
                 getBy: (id) => {
                     element = document.getElementById(id);
@@ -58,6 +59,7 @@ import vars from "./vars.js";
                 },
                 callDefaultComponents: () => {
                     for (let view of window.laurel.defaultComponents) {
+                        console.log(view)
                         window.laurel.renderComponent(view.route, view.element);
                     }
                 },
@@ -71,23 +73,28 @@ import vars from "./vars.js";
 
                 verifyAuthentication: () => {
                     laurel.fetch(vars.urlApi + "auth/see","GET",(data)=>{
-                        if(data.length > 0){
-                            laurel.authetication = true;
+                        if(typeof data.activeSession !== 'undefined'){
+                            laurel.handlerRoute();
+                            return laurel.authentication = true;
                         }else{
-                            laurel.authetication = false;
+                            return laurel.authentication = false;
                         }
                     });
                 },
 
-                showViewCustom: (url)=>{
+                showViewCustom: (url,paramcontroller)=>{
                     laurel.fetch(url,"GET",(data)=>{
                         frame.innerHTML = data;
-                    },"","text")
+                        laurel.currentController = controllers[paramcontroller];
+                        return controllers[paramcontroller].initValidate();
+                    },"","text");
+                    
                 },
 
                 handlerRoute: () => {
                     let hash = window.location.hash.substring(1) || "/";
                     var uri_obj = routes[hash];
+
                     if (uri_obj && uri_obj.templates) {
                         frame.innerHTML = "";
                         uri_obj.templates.map(function(uri_template, i) {
@@ -111,24 +118,26 @@ import vars from "./vars.js";
                     }
                 }
 
+                
             };
             return library;
         };
-
-
+        
+        
         if (typeof window.laurel === "undefined") {
             window.laurel = start();
+            // laurel.verifyAuthentication() ;
             window.addEventListener("hashchange", laurel.handlerRoute, false);
         } else {
             console.log("Libreria ya definida")
         }
-
+        
         const initLaurel = (e) => {
-            laurel.url = vars.url;
+            laurel.url = vars.urlApi;
             laurel.loader = vars.loader;
             laurel.defaultComponents = vars.defaultComponents
-            laurel.verifyAuthentication() ? laurel.handlerRoute(): false;
-
+            laurel.callDefaultComponents();
+            laurel.handlerRoute();
             window.laurel = laurel;
         };
 

@@ -1,3 +1,4 @@
+
 (function(window, document) {
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -7,6 +8,6 @@
         //     create: function() {
 
         //     }
-        // });
+
     });
 })(window, document);

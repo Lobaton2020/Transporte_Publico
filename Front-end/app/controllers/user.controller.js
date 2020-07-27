@@ -4,7 +4,34 @@ import UserService from "../services/user.service.js";
     "use strict"
 
     document.addEventListener("DOMContentLoaded", (e) => {
+
         laurel.controller('user', {
+            initValidate: function(){
+                 callInitValidate();
+            },
+            validate: async function(form) {
+                let datos = new FormData();
+                datos.append("correo", form.email.value);
+                datos.append("pass", form.password.value);
+
+                if (await UserService.validate(datos)) {
+                    Swal.fire(
+                        'Datos validados!',
+                        'Redireccionando...',
+                        'success'
+                      );
+                    setTimeout(() => {
+                        laurel.authentication = true;
+                        window.location.hash = '#/user/list';
+                    }, 1000);
+                }else{
+                    Swal.fire(
+                        'Error!',
+                        'Validacion incorrecta. Intenta nuevamente',
+                        'error'
+                      );
+                }
+            },
             create: async function(form) {
                 let datos = new FormData();
                 datos.append("idrol", form.roles.value);
@@ -13,10 +40,21 @@ import UserService from "../services/user.service.js";
                 datos.append("pass", form.contrasena.value);
                 datos.append("imagen", form.avatar.files[0]);
                 datos.append("telefono", form.telefono.value);
-
-
+                
                 if (await UserService.create(datos)) {
-                    alert("Usuario registrado")
+                    form.reset();
+                    Swal.fire(
+                        'Exito!',
+                        'Usuario creado correctamente!',
+                        'success'
+                      );
+                }else{
+                    Swal.fire(
+                        'Error!',
+                        'Intentalo nuevamente!',
+                        'error'
+                      );
+                    
                 }
             },
             list: function() {
@@ -41,7 +79,17 @@ import UserService from "../services/user.service.js";
     });
 })(window, document);
 
-
+const handlerValidateUser =  (e) => {
+    e.preventDefault();
+    laurel.getController().validate(e.currentTarget);
+}
+const callInitValidate =  () =>{
+     document.getElementById("form-login").addEventListener("submit",handlerValidateUser);
+}
+const handlerCreateUser = async(e) => {
+    e.preventDefault();
+    await laurel.getController().create(e.target);
+}
 
 const eventMouseOver = (e) => {
     e.target.style.opacity = 0.6;
@@ -78,10 +126,6 @@ const renderUser = (data) => {
     document.title = data.length;
 };
 
-const handlerCreateUser = async(e) => {
-    e.preventDefault();
-    await lob.getCtrl().create(e.target);
-}
 
 const renderRoles = (data) => {
     var select = document.getElementById("roles");
