@@ -1,4 +1,5 @@
 <?php
+
 class Base extends PDO
 {
     private $dbhost = DBHOST;

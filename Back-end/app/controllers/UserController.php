@@ -13,7 +13,18 @@ class UserController extends Controller implements Crud, User
     public function all()
     {
         $this->rol_conductor_not_access();
-        return $this->model->getAll()->json();
+        $datos = array();
+        foreach ($this->model->getAll()->normal() as $user) {
+            $newUser = new stdClass();
+            $newUser->idusuario = $user->idusuario;
+            $newUser->idrol = $user->idrol;
+            $newUser->nombrecompleto = $user->nombrecompleto;
+            $newUser->correo = $user->correo;
+            $newUser->telefono = $user->telefono;
+
+            array_push($datos, $newUser);
+        }
+        return toJSON($datos);
     }
 
     public function get($id)
@@ -58,7 +69,7 @@ class UserController extends Controller implements Crud, User
                 $id = intval($this->model->maxId("idusuario")->maxid) + 1;
                 $ruta = "./images/" . $id . "_user_img/";
                 $datos[4] = $ruta . $nameImg;
-                $datos[3] = password_hash($datos[3], PASSWORD_BCRYPT);
+                $datos[3] = password_hash($datos[3], PASSWORD_BCRYPT, ['cost' => 10]);
 
                 if (!file_exists($ruta)) {
                     mkdir($ruta, 0777, true);

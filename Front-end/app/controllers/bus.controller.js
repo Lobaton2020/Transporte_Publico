@@ -1,11 +1,12 @@
-import { LinkService } from "../services/link.service.js";
-
 (function(window, document) {
-    "use strict"
-    var contador = 0;
-    lob.controlador('bus', {
-        create: function() {
 
-        }
+    document.addEventListener("DOMContentLoaded", () => {
+        "use strict"
+        var contador = 0;
+        // lob.controlador('bus', {
+        //     create: function() {
+
+        //     }
+        // });
     });
 })(window, document);

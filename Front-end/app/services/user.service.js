@@ -1,7 +1,7 @@
-import config from "../libs/default.js";
+import vars from "../libs/vars.js";
 
 export default {
-    url: config.urlApi,
+    url: vars.urlApi,
     users: [],
     link: [],
     create: async function(datos) {

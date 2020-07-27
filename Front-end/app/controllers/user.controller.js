@@ -1,41 +1,43 @@
 import UserService from "../services/user.service.js";
-import config from "../libs/default.js";
 
 (function(window, document) {
     "use strict"
 
-    lob.controlador('user', {
-        create: async function(form) {
-            let datos = new FormData();
-            datos.append("idrol", form.roles.value);
-            datos.append("nombrecompleto", form.nombrecompleto.value);
-            datos.append("correo", form.correo.value);
-            datos.append("pass", form.contrasena.value);
-            datos.append("imagen", form.avatar.files[0]);
-            datos.append("telefono", form.telefono.value);
+    document.addEventListener("DOMContentLoaded", (e) => {
+        laurel.controller('user', {
+            create: async function(form) {
+                let datos = new FormData();
+                datos.append("idrol", form.roles.value);
+                datos.append("nombrecompleto", form.nombrecompleto.value);
+                datos.append("correo", form.correo.value);
+                datos.append("pass", form.contrasena.value);
+                datos.append("imagen", form.avatar.files[0]);
+                datos.append("telefono", form.telefono.value);
 
 
-            if (await UserService.create(datos)) {
-                alert("Usuario registrado")
+                if (await UserService.create(datos)) {
+                    alert("Usuario registrado")
+                }
+            },
+            list: function() {
+                console.log("okk")
+                    // let users = await UserService.list();
+                    // if (users) {
+                    //     renderUser(users);
+                    // } else {
+                    //     console.log("No hay datos")
+                    // }
+            },
+            listRoles: async function() {
+                let roles = await UserService.listRoles();
+                if (roles) {
+                    renderRoles(roles);
+                } else {
+                    console.log("No hay datos")
+                }
             }
-        },
-        list: async function() {
-            let users = await UserService.list();
-            if (users) {
-                renderUser(users);
-            } else {
-                console.log("No hay datos")
-            }
-        },
-        listRoles: async function() {
-            let roles = await UserService.listRoles();
-            if (roles) {
-                renderRoles(roles);
-            } else {
-                console.log("No hay datos")
-            }
-        }
 
+        });
     });
 })(window, document);
 
@@ -93,7 +95,6 @@ const renderRoles = (data) => {
         option.textContent = element.nombre;
 
     });
-
 
 
 

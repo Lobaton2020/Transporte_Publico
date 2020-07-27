@@ -1,5 +1,4 @@
 <?php
-
 class Core
 {
     private $controller = "AuthController";
@@ -11,20 +10,20 @@ class Core
     {
         $this->params = $this->getUrl();
         $this->controller = $this->getController();
-        $this->method =  $this->getMethod();
-    
+        $this->method = $this->getMethod();
+
         $this->params = $this->params ? array_values($this->params) : [];
-    
-        if($this->existMethod){
-           echo call_user_func_array([$this->controller, $this->method], $this->params); //imprime lo que se retorna del controller y su metodo
-         }else{
+
+        if ($this->existMethod) {
+            echo call_user_func_array([$this->controller, $this->method], $this->params); //imprime lo que se retorna del controller y su metodo
+        } else {
             echo toJSON(
                 ["response" => [
                     "protocol" => "http",
                     "description" => "Method Not Found",
                     "state" => 404,
                     "type" => "methodnotfound",
-                    ]
+                ],
                 ]);
         }
     }
@@ -50,12 +49,12 @@ class Core
             if (method_exists($this->controller, $method)) {
                 $this->method = $method;
                 unset($this->params[$index]);
-            }else{
+            } else {
                 $this->existMethod = false;
             }
-        }else{
-             $this->existMethod = false;
-         }
+        } else {
+            $this->existMethod = false;
+        }
         return $this->method;
     }
 
