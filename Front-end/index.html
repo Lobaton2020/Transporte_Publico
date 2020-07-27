@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="app/libs/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="app/libs/sweetalert/css/sweetalert.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/useApp.css">
     <title>Mi sitio web</title>
 </head>
 
@@ -31,31 +32,6 @@
     <script src="app/libs/fontawesome/js/fontawesome.min.js"></script>
     <script src="app/libs/toastr/js/toastr.min.js"></script>
     <script src="app/libs/sweetalert/js/sweetalert.min.js"></script>
-
-    <input type="file" name="image" id="image">
-    <button id="go">Go</button>
-    <script>
-        let dato = lob.getById("go");
-        let URL = "http://localhost/Transporte_Publico/Back-end/";
-
-        function removeEvent(e) {
-            let datos = new FormData();
-            //datos.append("idrol", "1");
-            //datos.append("nombrecompleto", "juan andres");
-            datos.append("email", "andres@gmai.com");
-            datos.append("contrasena", "123456");
-            //datos.append("imagen", lob.getById("image").files[0]);
-            //datos.append("telefono", 12345);
-            let options = {
-                "method": "post",
-                "body": datos
-            };
-            fetch(URL + "auth/login", options)
-                .then(response => response.json())
-                .then(result => console.log(result))
-        }
-        dato.addEventListener("click", removeEvent);
-    </script>
 </body>
 
 </html>
