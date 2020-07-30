@@ -1,0 +1,36 @@
+/* estilos globales para la app */
+
+.bg-login-image {
+    background-image: url("../../assets/img/transporte_publico.jpg");
+    background-color: #cccccc;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.img-prueba {
+    width: 40%;
+    margin-top: 3px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10.3px
+}
+
+.container-img {
+    display: flex;
+    width: 100%;
+    height: 200px;
+}
+
+.required::before {
+    content: "*";
+    color: red;
+    font-size: 15px;
+}
+
+.text-big {
+    font-size: 16.4px;
+}
+
+.text-more-big {
+    font-size: 18.4px;
+}

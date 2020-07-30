@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="app/libs/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app/libs/toastr/css/toastr.min.css">
+    <link rel="stylesheet" href="app/libs/animate/animate.min.css">
+    <link rel="stylesheet" href="app/libs/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="app/libs/sweetalert/css/sweetalert.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="app/libs/template_files/css/main.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/useApp.css">
+    <title>Mi sitio web</title>
+</head>
+
+<body>
+    <div id="app" class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header fixe-footer">
+        <div id="navbar" class="app-header header-shadow"></div>
+        <div id="options" class="ui-theme-settings"></div>
+        <div class="app-main ">
+            <div id="slidebar"></div>
+            <div class="app-main__outer ">
+                <div id="vista" class="animated fadeIn"></div>
+                <div id="footer" class="app-wrapper-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div id="default-view"></div>
+    <!-- library spa -->
+    <script defer type="module" src="app/libs/laurel.js"></script>
+    <script defer src="app/route.routes.js"></script>
+
+    <!-- controllers -->
+    <!-- Solucionar el poner solo una libreria aqui cuando se necesite -->
+    <script defer type="module" src="app/controllers/user.controller.js"></script>
+    <script defer type="module" src="app/controllers/bus.controller.js"></script>
+    <script defer type="module" src="app/controllers/routebus.controller.js"></script>
+
+    <!-- importacion de librerias -->
+    <script defer src="app/libs/jquery/jquery.min.js"></script>
+    <script defer src="app/libs/bootstrap/js/bootstrap.min.js"></script>
+    <script defer src="app/libs/fontawesome/js/fontawesome.min.js"></script>
+    <script defer src="app/libs/toastr/js/toastr.min.js"></script>
+    <script defer src="app/libs/sweetalert/js/sweetalert.min.js"></script>
+
+    <!-- Modales -->
+
+    <div class="modal fade" id="user-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Actualizar usuario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <form id="update-user">
+                        <div class="form-group">
+                            <label for="name">Nombre completo <span class="required"></span> </label>
+                            <input type="text" name="nombrecompleto" class="form-control" id="nombrecompleto" placeholder="Nombre completo">
+                        </div>
+                        <div class="form-group ">
+                            <label for="correo">Email <span class="required"></span> </label>
+                            <input type="email" name="correo" class="form-control" id="correo" placeholder="Correo">
+                        </div>
+                        <div class="form-group ">
+                            <label for="telefono ">Telefono <span class="required"></span> </label>
+                            <input type="text" name="telefono" class="form-control" id="telefono" placeholder="Telefono">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" form="update-user" class="btn btn-primary">Actualizar usuario</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

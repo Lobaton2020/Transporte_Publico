@@ -1,8 +1,0 @@
-/* estilos globales para la app */
-.bg-login-image{
-    background-image: url("../../assets/img/transporte_publico.jpg");
-    background-color: red;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-  }
-
