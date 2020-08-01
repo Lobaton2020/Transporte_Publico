@@ -34,3 +34,47 @@
 .text-more-big {
     font-size: 18.4px;
 }
+
+.driver {
+    margin: 3px auto;
+    background-color: aliceblue;
+    display: flex;
+    padding: 1%;
+    border-radius: 3%;
+}
+
+.driver:hover {
+    background-color: azure;
+    cursor: pointer;
+}
+
+.driver:active {
+    background-color: turquoise;
+}
+
+.name {
+    font-weight: bold;
+    display: block;
+}
+
+.data {
+    margin-left: 3%;
+}
+
+.email {
+    display: block;
+}
+
+.img-driver {
+    background-attachment: scroll;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 43px;
+}
+
+.driver-not-found {
+    margin-top: 8px;
+    padding-left: 5px;
+    color: #FD7272;
+    font-weight: bold;
+}

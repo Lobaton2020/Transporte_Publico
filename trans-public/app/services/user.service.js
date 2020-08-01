@@ -2,8 +2,7 @@ import vars from "../libs/vars.js";
 
 export default {
     url: vars.urlApi,
-    users: [],
-    link: [],
+
     validate: async function(datos) {
         return fetch(this.url + "auth/login", {
                 method: "post",
@@ -53,6 +52,11 @@ export default {
     },
     see: async function() {
         return fetch(this.url + `auth/see`)
+            .then(response => response.json())
+            .then(result => result);
+    },
+    drivers: async function(name) {
+        return fetch(this.url + `user/drivers/${name}`)
             .then(response => response.json())
             .then(result => result);
     },

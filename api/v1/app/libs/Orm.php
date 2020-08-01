@@ -33,6 +33,31 @@ class Orm extends Base
             return false;
         }
     }
+
+    public function getByLimit($column, $value, $limit = 5)
+    {
+        try {
+            $this->querye("SELECT * FROM {$this->table} WHERE {$column} = :columnvalue limit {$limit}");
+            $this->bind(":columnvalue", $value);
+            $this->execute();
+            return new ConvertJSON($this->fetchAll());
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function getByLikeLimit($column, $value, $string, $limit = 5)
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE {$column} = :columnvalue AND ( nombrecompleto  LIKE CONCAT('%',:fullname,'%') OR  correo LIKE CONCAT('%',:email,'%'))  limit {$limit}";
+        $this->querye($sql);
+        $this->bind(":columnvalue", $value);
+        $this->bind(":fullname", $string);
+        $this->bind(":email", $string);
+        $this->execute();
+        return new ConvertJSON($this->fetchAll());
+
+    }
+
     public function getByCount($column, $value)
     {
         try {
@@ -73,6 +98,19 @@ class Orm extends Base
         try {
             $this->querye("SELECT {$where[0]} FROM {$this->table} WHERE  {$where[0]}" . "= :" . "{$where[0]}");
             $this->bind(":" . $where[0], $where[1]);
+            $this->execute();
+            return ($this->rowCount() > 0) ? true : false;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function existByCond($whereA, $whereB)
+    {
+        try {
+            $this->querye("SELECT {$whereA[0]} FROM {$this->table} WHERE  {$whereA[0]} = :{$whereA[0]} AND {$whereB[0]} = :{$whereB[0]}");
+            $this->bind(":" . $whereA[0], $whereA[1]);
+            $this->bind(":" . $whereB[0], $whereB[1]);
             $this->execute();
             return ($this->rowCount() > 0) ? true : false;
         } catch (Exception $e) {

@@ -1,0 +1,64 @@
+<div class="app-main__inner animated fadeIn">
+    <div class="tab-content">
+        <div class="tab-pane tabs-animation fade active show" id="tab-content-0" role="tabpanel">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 px-md-n3">
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Añadir un nuevo bus</h5>
+                            <form id="create-bus">
+                                <input type="hidden" name="idusuario">
+                                <div class="form-group ">
+                                    <label for="name ">Escribe la ruta:<span class="required "></span> </label>
+                                    <input type="text " name="placa" class="form-control " id=" " placeholder="Escribe la ruta" required>
+                                    <template id="show-register" style="display: none;">
+                                        <div class="driver">
+                                          <img class="img-driver" src="" alt=" ">
+                                          <div class="data ">
+                                            <div class="name "></div>
+                                            <div class="email "></div>
+                                          </div>
+                                        </div>
+                                     </template>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Escribe la placa del bus:<span class="required"></span> </label><br>
+                                    <input type="text" id="input-driver" class="form-control" placeholder="Escribe la placa del bus" required>
+                                    <div id="render-buses" class="mt-2"></div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <h5>Inicio</h5>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Inicio Fecha <span class="required"></span></label>
+                                            <input type="date" name="fechainicio" class="form-control" id="exampleInputPassword1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Inicio Hora <span class="required"></span></label>
+                                            <input type="time" name="horainicio" value="12:00" class="form-control" value="" id="exampleInputPassword1" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5>Finalizacion</h5>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Fecha Finalizacion <span class="required"></span></label>
+                                            <input type="date" name="fechafin" class="form-control" id="exampleInputPassword1" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Hora Finalizacion <span class="required"></span></label>
+                                            <input type="time" name="horafin" value="12:00" class="form-control" id="exampleInputPassword1" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block ">Registrar bus! </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 "></div>
+            </div>
+
+        </div>
+    </div>

@@ -17,6 +17,7 @@ import vars from "./vars.js";
             let library = {
                 url: vars.urlApi,
                 urlLaurel: vars.urlLaurel,
+                validateStatusResponse: vars.validateStatusResponse,
                 loader: '',
                 defaultComponents: [],
                 currentController: '',
@@ -153,6 +154,7 @@ import vars from "./vars.js";
                                     if (i < 1) {
                                         if (uri_obj.controller) {
                                             laurel.currentController = controllers[uri_obj.controller];
+                                            console.log(controllers)
                                         }
                                         if (typeof(uri_obj.action) === "function") {
                                             uri_obj.action();

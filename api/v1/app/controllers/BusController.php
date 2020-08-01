@@ -19,7 +19,12 @@ class BusController extends Controller implements Crud, Bus
         $datos = (is_array($datos)) ? $datos : [$datos];
 
         foreach ($datos as $dato) {
-            $dato->usuario = $user->getBy("idusuario", $dato->idusuario)->normal();
+            $userData = $user->getBy("idusuario", $dato->idusuario)->normal();
+            $dato->usuario = new stdClass();
+            $dato->usuario->nombrecompleto = $userData->nombrecompleto;
+            $dato->usuario->idrol = $userData->idrol;
+            $dato->usuario->imagen = $userData->imagen;
+            $dato->usuario->correo = $userData->correo;
         }
         return toJSON($datos);
     }
@@ -70,6 +75,9 @@ class BusController extends Controller implements Crud, Bus
             if (is_fieldEmpty($datos)) {
                 return $this->httpResponse("error", "fieldempty", "empty fileds client")->json();
             }
+            if ($this->model->exist(["idusuario", $datos[1]]) || !$user->existByCond(["idusuario", $datos[1]], ["idrol", 3])) {
+                return $this->httpResponse("error", "alreadyexistregister", "empty fileds client")->json();
+            }
 
             $fields = unitArray(["invalid"], Tables::getFiedsBuses());
             if (!$this->model->exist(["placa", $datos[0]])) {
@@ -85,7 +93,7 @@ class BusController extends Controller implements Crud, Bus
                     return $this->httpResponse("error", "notexistsregister", "the user not exists")->json();
                 }
             } else {
-                return $this->httpResponse("error", "alreadyexistregister ", "the bus already exists")->json();
+                return $this->httpResponse("error", "alreadyexistregister", "the bus already exists")->json();
             }
 
         } else {

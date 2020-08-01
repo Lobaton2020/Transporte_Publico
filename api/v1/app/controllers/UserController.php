@@ -14,7 +14,7 @@ class UserController extends Controller implements Crud, User
     {
         $this->rol_conductor_not_access();
         $datos = array();
-        foreach ($this->model->getAll()->normal() as $user) {
+        foreach ($this->model->getAll()->normalArray() as $user) {
             $newUser = new stdClass();
             $newUser->idusuario = $user->idusuario;
             $newUser->idrol = $user->idrol;
@@ -24,6 +24,27 @@ class UserController extends Controller implements Crud, User
             $newUser->telefono = $user->telefono;
 
             array_push($datos, $newUser);
+        }
+        return toJSON($datos);
+    }
+    public function drivers($search)
+    {
+        // $string = isset($_POST["search"]) ? $_POST["search"] : " ";
+        $bus = $this->model("bus");
+        $this->rol_conductor_not_access();
+        $datos = array();
+        foreach ($this->model->getByLikeLimit("idrol", 3, $search)->normalArray() as $user) {
+            if (empty($bus->getBy("idusuario", $user->idusuario)->normal())) {
+
+                $newUser = new stdClass();
+                $newUser->idusuario = $user->idusuario;
+                $newUser->idrol = $user->idrol;
+                $newUser->nombrecompleto = $user->nombrecompleto;
+                $newUser->correo = $user->correo;
+                $newUser->imagen = $user->imagen;
+                $newUser->telefono = $user->telefono;
+                array_push($datos, $newUser);
+            }
         }
         return toJSON($datos);
     }
@@ -137,9 +158,9 @@ class UserController extends Controller implements Crud, User
                 break;
             }
         }
-        $lastEmail = $this->model->getBy("idusuario",$this->id)->normal()->correo;
+        $lastEmail = $this->model->getBy("idusuario", $this->id)->normal()->correo;
         if (filter_var($datos[1], FILTER_VALIDATE_EMAIL)) {
-            if($lastEmail == $datos[1] || $this->model->getByCount("correo",$datos[1]) == 0){
+            if ($lastEmail == $datos[1] || $this->model->getByCount("correo", $datos[1]) == 0) {
                 $fields = ["nombrecompleto", "correo", "telefono"];
                 if ($this->model->update($fields, $datos, ["idusuario", $this->id])) {
                     $this->updateSession([$this->name, $datos[1], $this->image]);
@@ -147,7 +168,7 @@ class UserController extends Controller implements Crud, User
                 } else {
                     return $this->httpResponse("error", "notupdated", "user not updated")->json();
                 }
-            }else {
+            } else {
                 return $this->httpResponse("error", "alreadyexistregister", " the email alreadyexists")->json();
             }
         } else {

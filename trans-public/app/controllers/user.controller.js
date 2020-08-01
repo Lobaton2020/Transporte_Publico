@@ -27,7 +27,6 @@ import UserService from "../services/user.service.js";
                         if (data.user_data_credentials != 'undefined') {
                             redirect = data.user_data_credentials.rol == 3 ? '#/conductor/bus' : redirect;
                         }
-                        console.log(redirect);
                         window.location.hash = redirect;
                         window.location.reload();
                     }, 500);
@@ -83,7 +82,7 @@ import UserService from "../services/user.service.js";
                         'success'
                     );
                 } else {
-                    let error = validateResponse(result);
+                    let error = laurel.validateStatusResponse(result);
                     Swal.fire(
                         'Error!',
                         error,
@@ -144,21 +143,7 @@ import UserService from "../services/user.service.js";
     });
 })(window, document);
 
-const validateResponse = (result) => {
-    let error = "";
-    // user
-    error = result == 'invalidemail' ? 'El correo de usuario es invalido' : error;
-    error = result == 'imagenotfound' ? 'Selecciona una imagen' : error;
-    error = result == 'notvalidatecellphone' ? 'Telefono invalido' : error;
-    error = result == 'invalidcellphone' ? 'Tu numero celular es muy largo' : error;
-    error = result == 'imagenotsaved' ? 'El servidor no pudo almacenar la imagen' : error;
-    error = result == 'invalidpassword' ? 'La contraseña no es valida' : error;
-    error = result == 'alreadyexistregister' ? 'El usuario ya existe' : error;
-    error = result == 'fieldempty' ? 'Debes llenar los campos requerido' : error;
-    error = result == 'notregistered' ? 'Error al registrar' : error;
-    error = result == 'notupdated' ? 'Error al actializar' : error;
-    return error;
-};
+
 const resetContainerImage = () => {
     let container = document.getElementById("container-img");
     container.classList.remove("container-img");
@@ -196,7 +181,6 @@ const eventClick = (e) => {
 const updateFieldsList = (form, id) => {
 
     let register = document.getElementById(id);
-    // console.log(document.getElementById(e.target.getAttribute("ide"))
     register.querySelector(".name").textContent = form.nombrecompleto.value;
     register.querySelector(".email").textContent = form.correo.value;
     register.querySelector(".contact").textContent = form.telefono.value;

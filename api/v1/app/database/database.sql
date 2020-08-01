@@ -59,13 +59,34 @@ create table rutabus (
 );
 
 
-
--- phpMyAdmin SQL Dump
--- version 5.0.1
--- https://www.phpmyadmin.net/
-
--- Tiempo de generación: 24-07-2020 a las 17:02:43
 INSERT INTO `rol` (`idrol`, `nombre`) VALUES
 (1, 'Coordinador Administrativo'),
 (2, 'Coordinador de Rutas'),
 (3, 'Conductor');
+
+INSERT INTO `usuario` (`idusuario`, `idrol`, `nombrecompleto`, `correo`, `contrasena`, `imagen`, `telefono`) VALUES
+(1, 1, 'admin', 'admin@admin.com', '$2y$10$CiQcUHWJd6VJlnglNYO8aed2RLhrqfflrypfYnOX05GVYdeU60.5K', 'images/auth/avatar.png', '000000000'),
+(2, 2, 'coordinador', 'cordinador@cordinador.com', '$2y$10$9Um4EtGtozc44EFbAgqRseXeV9JE3J6UdXK2VA6XU8dLI5n1lSkca', 'auth/img/avatar.png', '0000000000'),
+(3, 3, 'conductor1', 'conductor1@conductor.com', '$2y$10$92umf8S1jo4IG3NP.Oj7c.tqiGbOD7WQIv/TZ/GL8bYCAVtlEehFa', 'auth/img/avatar.png', '00000000'),
+(4, 3, 'conductor2', 'conductor2@conductor.com', '$2y$10$92umf8S1jo4IG3NP.Oj7c.tqiGbOD7WQIv/TZ/GL8bYCAVtlEehFa', 'auth/img/avatar.png', '00000000'),
+(5, 3, 'conductor3', 'conductor3@conductor.com', '$2y$10$92umf8S1jo4IG3NP.Oj7c.tqiGbOD7WQIv/TZ/GL8bYCAVtlEehFa', 'auth/img/avatar.png', '00000000');
+
+INSERT INTO `ruta` (`idruta`, `nombre`, `lugarpartida`, `lugarllegada`) VALUES
+(1, 'Jutumecop', 'Acacias', 'Villavicencio'),
+(2, 'El viaje largo', 'Bogota', 'Villavicencio'),
+(3, 'Los acacios', 'Bogota', 'La Calera'),
+(4, 'Apaporis', 'Acacias', 'Florencia');
+
+
+INSERT INTO `bus` (`placa`, `idusuario`, `color`, `modelo`, `fabricante`) VALUES
+('ABC-345', 3, 'Amarillo', '1998', 'Marcopolo'),
+('CSD345', 4, 'Negro', '2000', 'Toshiba'),
+('FND-345', 5, 'Blanco', '2020', 'Ford');
+
+INSERT INTO `contrato` (`idcontrato`, `idusuario`, `fechainicio`, `fechatermino`, `empresa`, `valortotal`) VALUES
+(1, 2, '2010-12-02 12:45:31', '2020-02-12 12:45:34', 'Bancolombia', 28000000),
+(2, 3, '2010-12-02 12:45:31', '2020-02-12 12:45:34', 'Bancolombia', 38000000),
+(3, 4, '2010-12-02 12:45:31', '2020-02-12 12:45:34', 'Bancolombia', 58000000),
+(4, 5, '2010-12-02 12:45:31', '2020-02-12 12:45:34', 'Bancolombia', 68000000);
+
+
