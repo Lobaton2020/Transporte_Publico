@@ -11,5 +11,5 @@ define("PROTOCOL", "http");
 
 define("URL_APP", dirname(dirname(__FILE__)));
 define("URL_PROJECT", PROTOCOL . '://' . $_SERVER["HTTP_HOST"] . '/' . $_SERVER["REQUEST_URI"]);
-
+//
 //datos de la empresa o cliente
