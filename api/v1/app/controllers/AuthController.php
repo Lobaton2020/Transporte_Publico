@@ -56,5 +56,4 @@ class AuthController extends Controller implements Auth
             return $this->httpResponse("error", "notclossedsession", "Error to close session")->json();
         }
     }
-
 }

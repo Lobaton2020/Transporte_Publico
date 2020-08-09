@@ -29,11 +29,10 @@ class UserController extends Controller implements Crud, User
     }
     public function drivers($search)
     {
-        // $string = isset($_POST["search"]) ? $_POST["search"] : " ";
         $bus = $this->model("bus");
         $this->rol_conductor_not_access();
         $datos = array();
-        foreach ($this->model->getByLikeLimit("idrol", 3, $search)->normalArray() as $user) {
+        foreach ($this->model->getByCondLikeLimit(["idrol", 3], ["correo", "nombrecompleto"], $search)->normalArray() as $user) {
             if (empty($bus->getBy("idusuario", $user->idusuario)->normal())) {
 
                 $newUser = new stdClass();
@@ -49,6 +48,21 @@ class UserController extends Controller implements Crud, User
         return toJSON($datos);
     }
 
+    public function users($search)
+    {
+        $this->rol_conductor_not_access();
+        $this->rol_coor_routes_not_access();
+        $bus = $this->model("bus");
+        $datos = array();
+        foreach ($this->model->getByLikeLimit(["nombrecompleto", "correo"], $search)->normalArray() as $user) {
+            // if (!$this->model->existByTable("contrato", ["idusuario", $user->idusuario])) {
+            unset($user->contrasena);
+            array_push($datos, $user);
+            // }
+        }
+        return toJSON($datos);
+    }
+
     public function get($id)
     {
         try {
@@ -56,7 +70,7 @@ class UserController extends Controller implements Crud, User
                 $this->rol_conductor_not_access();
             }
             $data = $this->model->getBy("idusuario", $id)->normal();
-            if (empty($data)):
+            if (empty($data)) :
                 throw new Exception("Error");
             endif;
             $user = new stdClass();
@@ -143,7 +157,6 @@ class UserController extends Controller implements Crud, User
                 default:
                     return $this->httpResponse("error", "parammethod", "The server not known that do")->json();
             }
-
         } else {
             return $this->httpResponse("error", "invalidmethod", "The method should be POST not GET")->json();
         }
@@ -174,7 +187,6 @@ class UserController extends Controller implements Crud, User
         } else {
             return $this->httpResponse("error", "invalidemail", " the email is invalid")->json();
         }
-
     }
 
     public function updatePassword($data)
@@ -199,8 +211,7 @@ class UserController extends Controller implements Crud, User
         }
         $imagen = array_values($img)[0];
         $lastImg = $this->model->getBy("idusuario", $this->id)->normal()->imagen;
-        $
-        $newImg = str_replace("%" . basename($lastImg) . "%", $imagen["name"], $lastImg);
+        $$newImg = str_replace("%" . basename($lastImg) . "%", $imagen["name"], $lastImg);
 
         if (unlink($lastImg)) {
             if (move_uploaded_file($imagen["tmp_name"], $newImg)) {
@@ -213,10 +224,8 @@ class UserController extends Controller implements Crud, User
             } else {
                 return $this->httpResponse("error", "errorimage", "error in server (ulpload image)", 500)->json();
             }
-
         } else {
             return $this->httpResponse("error", "notupdated", "error in server (delete image old)", 500)->json();
         }
     }
-
 }

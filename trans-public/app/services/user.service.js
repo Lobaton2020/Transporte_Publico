@@ -2,78 +2,63 @@ import vars from "../libs/vars.js";
 
 export default {
     url: vars.urlApi,
+    optionsRequest: function(data) {
+        return {
+            method: "POST",
+            body: data
+        }
+    },
 
     validate: async function(datos) {
-        return fetch(this.url + "auth/login", {
-                method: "post",
-                body: datos
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.response.type == "logged") {
-                    return true;
-                } else {
-                    return false;
-                }
-            });
+        const response = await fetch(this.url + "auth/login", this.optionsRequest(datos));
+        const result = await response.json();
+        return result.response.type == "logged" ? true : false;
     },
     create: async function(datos) {
-        return fetch(this.url + "user/save", {
-                method: "post",
-                body: datos
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.response.type == "registered") {
-                    return true;
-                } else {
-                    return result.response.type;
-                }
-            });
+        const response = await fetch(this.url + "user/save", this.optionsRequest(datos));
+        const result = await response.json();
+        return result.response.type == "registered" ? true : result.response.type;
     },
     update: async function(datos, id) {
-        return fetch(this.url + `user/update/text/${id}`, {
-                method: "post",
-                body: datos
-            })
-            .then(response => response.json())
-            .then(result => {
-                if (result.response.type == "updated") {
-                    return true;
-                } else {
-                    return result.response.type;
-                }
-            });
+
+        const response = await fetch(this.url + `user/update/text/${id}`, this.optionsRequest(datos));
+        const result = await response.json();
+        return result.response.type == "updated" ? true : result.response.type;
     },
     get: async function(id) {
-        return fetch(this.url + `user/get/${id}`)
-            .then(response => response.json())
-            .then(result => result);
+        const response = await fetch(this.url + `user/get/${id}`);
+        const result = await response.json();
+        return result;
     },
     see: async function() {
-        return fetch(this.url + `auth/see`)
-            .then(response => response.json())
-            .then(result => result);
+        const response = await fetch(this.url + `auth/see`);
+        const result = await response.json();
+        return result;
     },
     drivers: async function(name) {
-        return fetch(this.url + `user/drivers/${name}`)
-            .then(response => response.json())
-            .then(result => result);
+        const response = await fetch(this.url + `user/drivers/${name}`);
+        const result = await response.json();
+        return result;
+    },
+    users: async function(name) {
+        const response = await fetch(this.url + `user/users/${name}`);
+        const result = await response.json();
+        return result;
     },
     list: async function() {
-        return fetch(this.url + "user/all")
-            .then(response => response.json())
-            .then(result => result);
+        const response = await fetch(this.url + "user/all");
+        const result = await response.json();
+        return result;
     },
     listRoles: async function() {
-        return fetch(this.url + "rol/all")
-            .then(response => response.json())
-            .then(result => result);
+        const response = await fetch(this.url + "rol/all");
+        const result = await response.json();
+        return result;
     },
     logout: async function() {
-        return fetch(this.url + "auth/logout")
-            .then(response => response.json())
-            .then(result => result);
+        const response = await fetch(this.url + "auth/logout");
+        const result = await response.json();
+        return result;
     }
 
 

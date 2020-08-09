@@ -1,6 +1,6 @@
 export default {
     urlLaurel: location.origin.concat(location.pathname),
-    urlApi: localStorage.getItem("url-api-php") || "http://localhost/SENA/5_Trim_PHP_SENA/Proyecto_Transporte_Publico/api/v1/",
+    urlApi: localStorage.getItem("url-api-php"),
     getUrlApi: function() {
         if (!this.urlApi) {
             Swal.fire({
@@ -36,6 +36,7 @@ export default {
     },
     validateStatusResponse: function(result) {
         let error = "";
+        result = result.trim();
         error = result == 'invalidemail' ? 'El correo de usuario es invalido' : error;
         error = result == 'imagenotfound' ? 'Selecciona una imagen' : error;
         error = result == 'notvalidatecellphone' ? 'Telefono invalido' : error;
@@ -54,10 +55,10 @@ export default {
     // Mensaje de cargando
     loader: `<div id="load" class="mt-3 animated fadeIn">
                 <div id="figure">
-                <div class="elemento1"></div>
-                <div class="elemento3"></div>
-            </div>
-            <div id="text"></div>
+                   <div class="elemento1"></div>
+                   <div class="elemento2"></div>
+                </div>
+                <div id="text"></div>
             </div>`,
     // son los componentes predefinidos para mostrar al usuario
     defaultComponents: [{

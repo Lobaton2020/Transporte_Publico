@@ -10,11 +10,13 @@ import UserService from "../services/user.service.js";
                 callInitValidate();
             },
             validate: async function(form) {
+                laurel.renderLoader(true);
                 let datos = new FormData();
                 datos.append("correo", form.email.value);
                 datos.append("pass", form.password.value);
-
-                if (await UserService.validate(datos)) {
+                let res = await UserService.validate(datos)
+                laurel.renderLoader(false);
+                if (res) {
                     Swal.fire(
                         'Datos validados!',
                         'Redireccionando...',
@@ -31,11 +33,8 @@ import UserService from "../services/user.service.js";
                         window.location.reload();
                     }, 500);
                 } else {
-                    Swal.fire(
-                        'Error!',
-                        'Validacion incorrecta. Intenta nuevamente',
-                        'error'
-                    );
+                    toastr.error('Validacion incorrecta. Intenta nuevamente')
+
                 }
             },
             create: async function(form) {
@@ -47,6 +46,7 @@ import UserService from "../services/user.service.js";
                 datos.append("imagen", form.avatar.files[0]);
                 datos.append("telefono", form.telefono.value);
                 let result = await UserService.create(datos);
+                laurel.renderLoader(false);
                 if (result === true) {
                     form.reset();
                     resetContainerImage();
@@ -56,7 +56,7 @@ import UserService from "../services/user.service.js";
                         'success'
                     );
                 } else {
-                    let error = validateResponse(result);
+                    let error = laurel.validateStatusResponse(result);
                     Swal.fire(
                         'Error!',
                         error,
@@ -72,6 +72,7 @@ import UserService from "../services/user.service.js";
                 datos.append("correo", form.correo.value);
                 datos.append("telefono", form.telefono.value);
                 let result = await UserService.update(datos, id);
+                laurel.renderLoader(false);
                 if (result === true) {
                     $("#user-detail").modal("hide");
                     updateFieldsList(form, id);
@@ -92,9 +93,12 @@ import UserService from "../services/user.service.js";
                 }
             },
             list: async function() {
+                laurel.renderLoader(true);
                 let users = await UserService.list();
                 if (users) {
                     renderUser(users);
+                    laurel.renderLoader(false);
+
                 } else {
                     console.log("No hay datos")
                 }
@@ -137,6 +141,21 @@ import UserService from "../services/user.service.js";
                         'error'
                     );
                 }
+            },
+            loadModalEdit: async function() {
+                return new Promise((resolve, reject) => {
+
+                    let modal = document.getElementById("modal-view");
+                    if (!modal.classList.contains("user-update") || modal.innerHTML == "") {
+                        modal.classList.add("user-update");
+                        laurel.fetch("app/views/modals/userUpdate.html", "GET", (data) => {
+                            modal.innerHTML = data;
+                            resolve(true);
+                        }, "", "text");
+                    } else {
+                        resolve(true);
+                    }
+                })
             }
 
         });
@@ -159,24 +178,9 @@ const callInitValidate = () => {
 }
 const handlerCreateUser = async(e) => {
     e.preventDefault();
+    laurel.renderLoader(true);
     await laurel.getController().create(e.target);
 }
-
-const eventMouseOver = (e) => {
-    e.target.style.opacity = 0.6;
-    e.target.style.cursor = "pointer";
-    e.target.style.borderRadius = "20%";
-};
-
-const eventMouseOut = (e) => {
-    e.target.style.opacity = 1;
-    e.target.style.cursor = "pointer";
-};
-
-
-const eventClick = (e) => {
-    alert(e.target.id + " " + e.target.name);
-};
 
 const updateFieldsList = (form, id) => {
 
@@ -187,25 +191,30 @@ const updateFieldsList = (form, id) => {
 }
 
 const handlerUpdateUser = async(e) => {
-        e.preventDefault();
-        await laurel.getController().update(e.target);
-    }
-    // Manejador de  detalle de usuario
+    e.preventDefault();
+    laurel.renderLoader(true)
+    await laurel.getController().update(e.target);
+};
+// Manejador de  detalle de usuario
 const handlerDetailUser = async(e) => {
-    let user = await laurel.getController().get(e.target.id);
+
+    let id = e.currentTarget.id;
+    let user = document.getElementById(id);
+    await laurel.getController().loadModalEdit();
     let form = document.getElementById("update-user");
     $("#user-detail").modal("show");
-    form.setAttribute("ide", user.idusuario);
-    form.nombrecompleto.value = user.nombrecompleto;
-    form.correo.value = user.correo;
-    form.telefono.value = user.telefono;
 
-    form.addEventListener("submit", handlerUpdateUser, false)
+    form.setAttribute("ide", id);
+    form.nombrecompleto.value = user.querySelector(".name").textContent;
+    form.correo.value = user.querySelector(".email").textContent;
+    form.telefono.value = user.querySelector(".contact").textContent;
+
+    form.addEventListener("submit", handlerUpdateUser, true)
 
 };
 
 
-const renderUser = (data) => {
+const renderUser = async(data) => {
     var tbody = document.getElementById("table-users");
     let template = document.getElementById("template");
     let fragmento = document.createDocumentFragment();
@@ -264,10 +273,12 @@ const handlerRenderImage = (e) => {
     ubication.classList.add("container-img");
     ubication.appendChild(img);
 };
+
 const prepareEventImage = () => {
     var image = document.getElementById("avatar");
     image.addEventListener("change", handlerRenderImage);
 };
+
 const renderRoles = (data) => {
     var select = document.getElementById("roles");
     var form = document.getElementById("create-user");

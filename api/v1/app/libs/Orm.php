@@ -45,18 +45,50 @@ class Orm extends Base
             return false;
         }
     }
-
-    public function getByLikeLimit($column, $value, $string, $limit = 5)
+    /*
+    @param $cond Array [column,value]
+    @param $columns Array [column1,column2] 
+    @param $string String [value] 
+    @param $limit Int [limit] 
+*/
+    public function getByCondLikeLimit($cond, $columns, $string, $limit = 5)
     {
-        $sql = "SELECT * FROM {$this->table} WHERE {$column} = :columnvalue AND ( nombrecompleto  LIKE CONCAT('%',:fullname,'%') OR  correo LIKE CONCAT('%',:email,'%'))  limit {$limit}";
+        $sql = "SELECT * FROM {$this->table} WHERE {$cond[0]} = :columnvalue AND ( {$columns[0]}  LIKE CONCAT('%',:like1,'%') OR  {$columns[1]} LIKE CONCAT('%',:like2,'%'))  limit {$limit}";
         $this->querye($sql);
-        $this->bind(":columnvalue", $value);
-        $this->bind(":fullname", $string);
-        $this->bind(":email", $string);
+        $this->bind(":columnvalue", $cond[1]);
+        $this->bind(":like1", $string);
+        $this->bind(":like2", $string);
         $this->execute();
         return new ConvertJSON($this->fetchAll());
-
     }
+    /*
+    @param $columns Array [column1,column2] 
+    @param $string String [value] 
+    @param $limit Int [limit] 
+*/
+    public function getByLikeLimit($columns, $string, $limit = 5)
+    {
+        try {
+
+            $like = "";
+            $cont = 0;
+            foreach ($columns as $column) :
+                $like .= "{$column} LIKE CONCAT('%',:{$column},'%')";
+                isset($columns[++$cont]) ? $like .= " OR " : "";
+            endforeach;
+            (!empty($like)) ? $like = "WHERE " . $like : "";
+            $sql = "SELECT * FROM {$this->table} {$like}  limit {$limit}";
+            $this->querye($sql);
+            foreach ($columns as $column) :
+                $this->bind(":{$column}", $string);
+            endforeach;
+            $this->execute();
+            return new ConvertJSON($this->fetchAll());
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
 
     public function getByCount($column, $value)
     {
@@ -104,6 +136,17 @@ class Orm extends Base
             return false;
         }
     }
+    public function existByTable($table, $where)
+    {
+        try {
+            $this->querye("SELECT {$where[0]} FROM {$table} WHERE  {$where[0]}" . "= :" . "{$where[0]}");
+            $this->bind(":" . $where[0], $where[1]);
+            $this->execute();
+            return ($this->rowCount() > 0) ? true : false;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
 
     public function existByCond($whereA, $whereB)
     {
@@ -133,7 +176,7 @@ class Orm extends Base
             $datos = array_combine(explode(",", $fieldValues), $data);
 
             $this->querye($sql);
-            foreach ($datos as $field => $value):
+            foreach ($datos as $field => $value) :
                 $this->bind($field, $value);
             endforeach;
             $this->execute();
@@ -150,24 +193,22 @@ class Orm extends Base
             $datos = array_combine($fields, $datos);
             $fieldDetail = "";
 
-            foreach ($datos as $field => $value):
+            foreach ($datos as $field => $value) :
                 $fieldDetail .= $field . "= :" . $field . ",";
             endforeach;
             $fieldDetail = substr($fieldDetail, 0, -1);
             $sql = "UPDATE {$this->table} SET {$fieldDetail} WHERE {$where[0]}" . "= :" . "{$where[0]}";
 
             $this->querye($sql);
-            foreach ($datos as $field => $value):
+            foreach ($datos as $field => $value) :
                 $this->bind(":" . $field, $value);
             endforeach;
 
             $this->bind(":" . $where[0], $where[1]);
             return $this->execute();
-
         } catch (Exception $e) {
             return false;
         }
-
     }
     public function deleteBy($id, $value, $limit = 1)
     {
@@ -179,5 +220,4 @@ class Orm extends Base
             return false;
         }
     }
-
 }

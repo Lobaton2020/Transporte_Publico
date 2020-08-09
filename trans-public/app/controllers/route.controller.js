@@ -6,37 +6,36 @@ import RouteService from "../services/route.service.js";
 
         laurel.controller('route', {
             initForm: async function() {
+
                 return await new Promise((resolve, reject) => {
                     activeFormRoute();
                     resolve(true);
                 });
             },
             create: async function(form) {
-                let datos = new FormData();
-                datos.append("no,bre", form.name.value);
-                datos.append("partida", form.startingplace.value);
-                datos.append("llegada", form.arrivalplace.value);
-                let result = await RouteService.create(datos);
-                if (result === true) {
-                    form.reset();
-                    Swal.fire(
-                        'Exito!',
-                        'Ruta creada correctamente!',
-                        'success'
-                    );
-                } else {
-                    let error = laurel.validateStatusResponse(result);
-                    Swal.fire(
-                        'Error!',
-                        error,
-                        'error'
-                    );
+                try {
+                    let datos = new FormData();
+                    datos.append("no,bre", form.name.value);
+                    datos.append("partida", form.startingplace.value);
+                    datos.append("llegada", form.arrivalplace.value);
+                    let result = await RouteService.create(datos);
+                    if (result === true) {
+                        form.reset();
+                        Swal.fire('Exito!', 'Ruta creada correctamente!', 'success');
+                    } else {
+                        let error = laurel.validateStatusResponse(result);
+                        Swal.fire('Error!', error, 'error');
 
+                    }
+                } catch (err) {
+                    toastr.error("Lo sentimos, no se creó la ruta.", "Error!")
                 }
             },
             list: async function() {
+                laurel.renderLoader(true);
                 let data = await RouteService.all();
                 renderListRoutes(data);
+                laurel.renderLoader(false);
             },
 
         });
@@ -65,6 +64,7 @@ const handlerDetail = () => {
 };
 
 const renderListRoutes = (data) => {
+
     var tbody = document.getElementById("table-registers");
     let template = document.getElementById("template");
     let fragmento = document.createDocumentFragment();
@@ -76,6 +76,7 @@ const renderListRoutes = (data) => {
         console.log(element)
         clon = template.content.cloneNode(true);
         clon.querySelector(".tr-clone").id = element.idusuario;
+        clon.querySelector(".id").textContent = element.idruta;
         clon.querySelector(".name").textContent = element.nombre.toUpperCase();
         clon.querySelector(".startingplace").textContent = element.lugarpartida;
         clon.querySelector(".arrivalplace").textContent = element.lugarllegada;

@@ -7,47 +7,64 @@
                     <div class="main-card mb-3 card">
                         <div class="card-body">
                             <h5 class="card-title text-center">Añadir un nuevo bus</h5>
-                            <form id="create-bus">
-                                <input type="hidden" name="idusuario">
+                            <form id="asign-bus">
+                                <input type="hidden" name="idruta">
                                 <div class="form-group ">
                                     <label for="name ">Escribe la ruta:<span class="required "></span> </label>
-                                    <input type="text " name="placa" class="form-control " id=" " placeholder="Escribe la ruta" required>
-                                    <template id="show-register" style="display: none;">
-                                        <div class="driver">
-                                          <img class="img-driver" src="" alt=" ">
-                                          <div class="data ">
-                                            <div class="name "></div>
-                                            <div class="email "></div>
-                                          </div>
+                                    <input type="text " name="ruta" class="form-control " id="input-route" placeholder="Escribe el nombre o id de la ruta:" required>
+                                    <div id="render-elements" class="mt-2"></div>
+                                    <template id="show-element" style="display: none;">
+                                        <div class="element ">
+                                            <div class="data">
+                                                <div class="placearrived"></div>
+                                                <div class="placestarting"></div>
+                                            </div>
+                                            <div class="name ml-auto mr-0"></div>
                                         </div>
-                                     </template>
+                                    </template>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name">Escribe la placa del bus:<span class="required"></span> </label><br>
-                                    <input type="text" id="input-driver" class="form-control" placeholder="Escribe la placa del bus" required>
+                                    <label for="name">Escribe la placa del bus:
+                                        <small>Click en la placa paraeliminarla</small>
+                                        <span class="required"></span>
+                                    </label><br>
+                                    <input type="text" id="input-bus" class="form-control" placeholder="Escribe la placa del bus">
                                     <div id="render-buses" class="mt-2"></div>
+                                    <div id="list-buses"></div>
+                                    <template id="show-buses" style="display:none;">
+                                        <div class="element">
+                                            <div class="placa font-weight-bold"></div>
+                                            <div class="data d-flex">
+                                                <div class="detail"></div>
+                                            </div>
+                                        </div>
+                                    </template>
 
                                 </div>
                                 <div class="form-row">
                                     <div class="col-md-6">
                                         <h5>Inicio</h5>
                                         <div class="form-group">
-                                            <label for="exampleInputPassword1">Inicio Fecha <span class="required"></span></label>
+                                            <label for="exampleInputPassword1">Inicio Fecha <span
+                                                    class="required"></span></label>
                                             <input type="date" name="fechainicio" class="form-control" id="exampleInputPassword1" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputPassword1">Inicio Hora <span class="required"></span></label>
+                                            <label for="exampleInputPassword1">Inicio Hora <span
+                                                    class="required"></span></label>
                                             <input type="time" name="horainicio" value="12:00" class="form-control" value="" id="exampleInputPassword1" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <h5>Finalizacion</h5>
                                         <div class="form-group">
-                                            <label for="exampleInputPassword1">Fecha Finalizacion <span class="required"></span></label>
+                                            <label for="exampleInputPassword1">Fecha Finalizacion <span
+                                                    class="required"></span></label>
                                             <input type="date" name="fechafin" class="form-control" id="exampleInputPassword1" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputPassword1">Hora Finalizacion <span class="required"></span></label>
+                                            <label for="exampleInputPassword1">Hora Finalizacion <span
+                                                    class="required"></span></label>
                                             <input type="time" name="horafin" value="12:00" class="form-control" id="exampleInputPassword1" required>
                                         </div>
                                     </div>

@@ -39,18 +39,21 @@
                 laurel.getController().list();
             })
             .route("/route/asign", ["app/views/routebus/create.html"], "routebus", function() {
-                // laurel.getController().initForm();
+                laurel.getController().initFormAsign();
             })
             .route("/route/asign/list", ["app/views/routebus/list.html"], "routebus", function() {
-                // laurel.getController().initForm();
+                laurel.getController().listRoutesUsers();
             })
-
-        // .route("/user/update", ["app/views/user/update.html"], null, null)
-        //bus
-        //contract
-        // .route("/contract/list", ["app/views/contract/renew.html"], null, null)
-        // .route("/contract/create", ["app/views/contract/save.html"], null, null)
-        //routebus
+            //contract
+            .route("/contract/create", ["app/views/contract/create.html"], "contract", function() {
+                laurel.getController().initForm();
+            })
+            .route("/contract/list", ["app/views/contract/list.html"], "contract", function() {
+                laurel.getController().list();
+            })
+            .route("/employed/contract/see", ["app/views/contract/contracts.html"], "contract", function() {
+                laurel.getController().enployedContract();
+            })
     });
 
 

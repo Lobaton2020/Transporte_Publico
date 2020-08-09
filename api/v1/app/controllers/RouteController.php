@@ -18,12 +18,11 @@ class RouteController extends Controller implements Crud, Route
         return $this->model->getAll()->json();
     }
 
-    public function get($id)
+    public function get($value)
     {
-
         try {
-            $data = $this->model->getBy("idruta", $id)->normal();
-            if (empty($data)):
+            $data = $this->model->getByLikeLimit(["idruta", "nombre"], $value)->normalArray();
+            if (empty($data)) :
                 throw new Exception("Error");
             endif;
             return toJSON($data);
@@ -52,7 +51,5 @@ class RouteController extends Controller implements Crud, Route
     }
     public function update()
     {
-
     }
-
 }

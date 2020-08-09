@@ -34,8 +34,10 @@ import BusService from "../services/bus.service.js";
                 }
             },
             list: async function() {
+                laurel.renderLoader(true);
                 let buses = await BusService.list();
                 renderListBuses(buses);
+                laurel.renderLoader(false);
             },
             drivers: async function(name) {
                 return await UserService.drivers(name);
@@ -118,7 +120,6 @@ const renderListBuses = (data) => {
     tbody.innerHTML = "";
     for (let i = data.length - 1; i >= 0; i--) {
         element = data[i];
-        console.log(element)
         clon = template.content.cloneNode(true);
         clon.querySelector(".tr-clone").id = element.idusuario;
         clon.querySelector(".image").src = laurel.url + element.usuario.imagen;

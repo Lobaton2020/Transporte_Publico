@@ -14,6 +14,8 @@ interface User
     public function updateText($data);
     public function updatePassword($data);
     public function updateImage($data);
+    public function users($search); //GET
+    public function drivers($search); //GET
 }
 
 interface Auth
@@ -26,6 +28,7 @@ interface Auth
 interface Contract
 {
     public function renew(); //POST
+    public function list(); //GET
 }
 
 interface Bus

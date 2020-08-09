@@ -22,8 +22,8 @@ create table  usuario (
 create table contrato (
     idcontrato int not null auto_increment, 
     idusuario int not null,
-    fechainicio datetime not null,
-    fechatermino datetime not null,
+    fechainicio date not null,
+    fechatermino date not null,
     empresa varchar(50) not null,
     valortotal float,
     primary key ( idcontrato ),
@@ -85,8 +85,8 @@ INSERT INTO `bus` (`placa`, `idusuario`, `color`, `modelo`, `fabricante`) VALUES
 
 INSERT INTO `contrato` (`idcontrato`, `idusuario`, `fechainicio`, `fechatermino`, `empresa`, `valortotal`) VALUES
 (1, 2, '2010-12-02 12:45:31', '2020-02-12 12:45:34', 'Bancolombia', 28000000),
-(2, 3, '2010-12-02 12:45:31', '2020-02-12 12:45:34', 'Bancolombia', 38000000),
-(3, 4, '2010-12-02 12:45:31', '2020-02-12 12:45:34', 'Bancolombia', 58000000),
-(4, 5, '2010-12-02 12:45:31', '2020-02-12 12:45:34', 'Bancolombia', 68000000);
+(2, 3, '2010-12-02 12:45:31', '2020-02-12 12:45:34', 'BBVA', 38000000),
+(3, 4, '2010-12-02 12:45:31', '2020-02-12 12:45:34', 'Transpublic', 58000000),
+(4, 5, '2010-12-02 12:45:31', '2020-02-12 12:45:34', 'Turixmó', 68000000);
 
 

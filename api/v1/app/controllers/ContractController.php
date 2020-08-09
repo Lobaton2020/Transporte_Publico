@@ -10,7 +10,6 @@ class ContractController extends Controller implements Crud, Contract
         $this->verify_authentication();
         $this->rol_coor_routes_not_access();
         $this->model = $this->model("contract");
-
     }
 
     public function all()
@@ -22,6 +21,7 @@ class ContractController extends Controller implements Crud, Contract
 
         foreach ($datos as $item) {
             $item->usuario = $user->getBy("idusuario", $item->idusuario)->normal();
+            unset($item->usuario->contrasena);
         }
         return toJSON($datos);
     }
@@ -32,10 +32,23 @@ class ContractController extends Controller implements Crud, Contract
         $user = $this->model("user");
         try {
             $data = $this->model->getBy("idcontrato", $id)->normal();
-            if (empty($data)):
+            if (empty($data)) :
                 throw new Exception("Error");
             endif;
             $data->usuario = $user->getBy("idusuario", $data->idusuario)->normal();
+            return toJSON($data);
+        } catch (Exception $e) {
+            return $this->httpResponse("error", "fieldnotfound", "Field not found", 404)->json();
+        }
+    }
+
+    public function list()
+    {
+        try {
+            $data = $this->model->getBy("idusuario", $this->id)->normalArray();
+            if (empty($data)) :
+                throw new Exception("Error");
+            endif;
             return toJSON($data);
         } catch (Exception $e) {
             return $this->httpResponse("error", "fieldnotfound", "Field not found", 404)->json();
@@ -52,12 +65,15 @@ class ContractController extends Controller implements Crud, Contract
                 return $this->httpResponse("error", "fieldempty", "empty fileds client")->json();
             }
             $fields = Tables::getFiedsContracts();
+            // if (!$this->model->existByTable("contrato", ["idusuario", $datos[0]])) {
             if ($this->model->save($fields, $datos)) {
                 return $this->httpResponse("ok", "registered", "contract registered success")->json();
             } else {
                 return $this->httpResponse("error", "notregistered", "contract not registered")->json();
             }
-
+            // } else {
+            //     return $this->httpResponse("error", "alreadyexistregister", "the register already exists")->json();
+            // }
         } else {
             return $this->httpResponse("error", "invalidmethod", "The method should be POST not GET")->json();
         }
@@ -71,7 +87,8 @@ class ContractController extends Controller implements Crud, Contract
                 return $this->httpResponse("error", "fieldempty", "empty fileds client")->json();
             }
             $fields = ["fechainicio", "fechatermino", "valortotal"];
-            $id = $datos[0];unset($datos[0]);
+            $id = $datos[0];
+            unset($datos[0]);
 
             if ($this->model->exist(["idcontrato", $id])) {
                 if ($this->model->update($fields, $datos, ["idcontrato", $id])) {
@@ -82,10 +99,8 @@ class ContractController extends Controller implements Crud, Contract
             } else {
                 return $this->httpResponse("error", "notexistsregister", "the contract not exists")->json();
             }
-
         } else {
             return $this->httpResponse("error", "invalidmethod", "The method should be POST not GET")->json();
         }
     }
-
 }

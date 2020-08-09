@@ -75,15 +75,33 @@ import vars from "./vars.js";
                     var interval = setInterval(() => {
                         setTimeout(() => {
                             clearInterval(interval);
-                        }, 2000);
-                        laurel.configureUserCredentials(laurel.credentials);
+                            laurel.configureUserCredentials(laurel.credentials);
+                        }, 1000);
                     }, 100);
+                },
+                renderLoader: (type = false, elem = "#loading") => {
+                    let load = document.querySelector(elem);
+                    if (load.innerHTML == "") {
+                        load.innerHTML = laurel.loader;
+                    }
+                    if (type) {
+                        load.classList.add("loading");
+                        document.body.classList.add("hide-overflow");
+                        load.classList.remove("loadingOut");
+                    } else {
+                        document.body.classList.remove("hide-overflow");
+                        load.classList.remove("loading");
+                        load.classList.add("loadingOut");
+
+                    }
                 },
                 configureUserCredentials: (data) => {
                     let access = "",
                         namerol,
-                        rol = parseInt(data.rol);
-                    laurel.getById("image-profile").src = laurel.url + data.image;
+                        rol = parseInt(data.rol),
+                        img;
+                    img = laurel.getById("image-profile");
+                    img.src == '' ? img.src = laurel.url + data.image : '';
                     laurel.getById("name-profile").textContent = data.name;
                     laurel.getById("email-profile").textContent = data.email;
                     laurel.getById("rol-profile").textContent = rol === 1 ? "Administrador" : rol === 2 ? "Coordinador" : "Conductor";
@@ -118,6 +136,7 @@ import vars from "./vars.js";
                         .then(response => type == "json" ? response.json() : response.text())
                         .then(result => callback(result));
                 },
+
                 verifyAuthentication: async() => {
                     laurel.fetch(vars.urlApi + "auth/see", "GET", (data) => {
                         if (typeof data.activeSession !== 'undefined') {
@@ -131,6 +150,11 @@ import vars from "./vars.js";
                             return laurel.authentication = false;
                         }
                     });
+                },
+                initLibraries: () => {
+                    // init Toastr
+                    toastr.options.progressBar = true;
+                    toastr.options.positionClass = "toast-bottom-left";
                 },
 
 
@@ -154,7 +178,6 @@ import vars from "./vars.js";
                                     if (i < 1) {
                                         if (uri_obj.controller) {
                                             laurel.currentController = controllers[uri_obj.controller];
-                                            console.log(controllers)
                                         }
                                         if (typeof(uri_obj.action) === "function") {
                                             uri_obj.action();
@@ -183,7 +206,9 @@ import vars from "./vars.js";
 
         const initLaurel = async(e) => {
             vars.getUrlApi();
+            laurel.initLibraries();
             laurel.loader = vars.loader;
+            laurel.renderLoader(false);
             laurel.defaultComponents = vars.defaultComponents
             await laurel.verifyAuthentication();
             window.laurel = laurel;

@@ -4,16 +4,14 @@
             <div class="main-card mb-3 card">
                 <div class="card-header">Listado de empleados
                     <div class="btn-actions-pane-right">
-                        <!-- <div role="group" class="btn-group-sm btn-group">
-                          <button class="active btn btn-focus">Last Week</button>
-                          <button class="btn btn-focus">All Month</button>
-                      </div> -->
+
                     </div>
                 </div>
                 <div class="table-responsive">
                     <table class="align-middle mb-0 table table-borderless table-striped table-hover">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th class="ml-2">Nombre</th>
                                 <th class="">Lugar partida</th>
                                 <th class="">Lugar llegada</th>
@@ -28,15 +26,17 @@
                             </tr>
 
                             <template id="template">
-                              <tr class="tr-clone">
-                              <td class="ml-2 name"></td>
-                              <td class=" startingplace"></td>
-                              <td class=" arrivalplace"></td>
-                              <td class="text-center">
-                                  <button type="button" id="" class="btn btn-primary btn-sm detail"><i class="pe-7s-eyedropper"> </i></button>
-                              </td>
-                          </tr>
-                          </template>
+                                <tr class="tr-clone">
+                                    <th class="id"></th>
+                                    <td class="ml-2 name"></td>
+                                    <td class=" startingplace"></td>
+                                    <td class=" arrivalplace"></td>
+                                    <td class="text-center">
+                                        <button type="button" id="" class="btn btn-primary btn-sm detail"><i
+                                                class="pe-7s-eyedropper"> </i></button>
+                                    </td>
+                                </tr>
+                            </template>
 
                         </tbody>
                     </table>

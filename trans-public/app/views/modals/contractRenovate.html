@@ -1,0 +1,43 @@
+<div class="modal fade" id="user-detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Renovar contrato</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="contract-update">
+                    <div class="form-group">
+                        <label for="name">Usuario<span class="required"></span> </label>
+                        <input type="text" name="nombrecompleto" class="form-control" id="nombrecompleto" placeholder="Nombre completo">
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1"> Fecha Inicio <span class="required"></span></label>
+                                <input type="date" name="fechainicio" class="form-control" id="" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Fecha Finalizacion <span
+                                        class="required"></span></label>
+                                <input type="date" name="fechatermino" class="form-control" id="" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="name">Sueldo:<span class="required "></span> </label>
+                        <input type="number" name="sueldo" class="form-control " id=" " placeholder="Sueldo del empleado" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="submit" form="contract-update" class="btn btn-primary">Actualizar contrato</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -31,16 +31,13 @@ class BusController extends Controller implements Crud, Bus
 
     public function get($placa)
     {
+        $this->rol_conductor_not_access();
         $user = $this->model("user");
         try {
-            $data = $this->model->getBy("placa", $placa)->normal();
-            if (empty($data)):
+            $data = $this->model->getByLikeLimit(["placa"], $placa)->normalArray();
+            if (empty($data) || $placa == "") :
                 throw new Exception("Error");
             endif;
-            $data->usuario = $user->getBy("idusuario", $data->idusuario)->normal();
-            if (($data->usuario->idusuario != $this->id && $this->rol == 3)) {
-                return $this->httpResponse("error", "notpermission", "you do not have access", 404)->json();
-            }
             return toJSON($data);
         } catch (Exception $e) {
             return $this->httpResponse("error", "fieldnotfound", "Field not found", 404)->json();
@@ -53,7 +50,7 @@ class BusController extends Controller implements Crud, Bus
         $user = $this->model("user");
         try {
             $data = $this->model->getBy("idusuario", $this->id)->normal();
-            if (empty($data)):
+            if (empty($data)) :
                 throw new Exception("Error");
             endif;
             $usuario = $user->getBy("idusuario", $data->idusuario)->normal();
@@ -95,7 +92,6 @@ class BusController extends Controller implements Crud, Bus
             } else {
                 return $this->httpResponse("error", "alreadyexistregister", "the bus already exists")->json();
             }
-
         } else {
             return $this->httpResponse("error", "invalidmethod", "The method should be POST not GET")->json();
         }
@@ -109,7 +105,8 @@ class BusController extends Controller implements Crud, Bus
                 return $this->httpResponse("error", "fieldempty", "empty fileds client")->json();
             }
             $fields = ["fechainicio", "fechatermino", "valortotal"];
-            $id = $datos[0];unset($datos[0]);
+            $id = $datos[0];
+            unset($datos[0]);
 
             if ($this->model->exist(["idcontrato", $id])) {
                 if ($this->model->update($fields, $datos, ["idcontrato", $id])) {
@@ -120,10 +117,8 @@ class BusController extends Controller implements Crud, Bus
             } else {
                 return $this->httpResponse("error", "notexistsregister", "the contract not exists")->json();
             }
-
         } else {
             return $this->httpResponse("error", "invalidmethod", "The method should be POST not GET")->json();
         }
     }
-
 }

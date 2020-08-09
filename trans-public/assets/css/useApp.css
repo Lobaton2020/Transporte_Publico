@@ -35,7 +35,8 @@
     font-size: 18.4px;
 }
 
-.driver {
+.driver,
+.element {
     margin: 3px auto;
     background-color: aliceblue;
     display: flex;
@@ -43,7 +44,8 @@
     border-radius: 3%;
 }
 
-.driver:hover {
+.driver:hover,
+.element:hover {
     background-color: azure;
     cursor: pointer;
 }
@@ -66,15 +68,45 @@
 }
 
 .img-driver {
+    border-radius: 5%;
     background-attachment: scroll;
-    border-radius: 50%;
     overflow: hidden;
     width: 43px;
 }
 
 .driver-not-found {
-    margin-top: 8px;
+    margin: 5px auto;
     padding-left: 5px;
     color: #FD7272;
     font-weight: bold;
+}
+
+.logo-src::before {
+    content: "TransPublic";
+    font-family: 'Lobster', cursive;
+    font-size: 25px;
+}
+
+.logo-src {
+    margin-bottom: 15px;
+}
+
+.btn-close-item::before {
+    content: "x";
+}
+
+.item-list-buses {
+    display: inline;
+    padding: 5px 8px;
+    background-color: #efefef;
+    margin: 3px;
+    border-radius: 5px;
+}
+
+.item-list-buses:hover {
+    background-color: #CECECE;
+}
+
+.item-list-buses:active {
+    background-color: #aaa;
 }

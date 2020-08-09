@@ -9,33 +9,28 @@ export default {
         }
     },
     create: async function(datos) {
-        const response = await fetch(this.url + "routebus/save", this.optionsRequest(datos));
+        const response = await fetch(this.url + "contract/save", this.optionsRequest(datos));
         const result = await response.json();
         return result.response.type == "registered" ? true : result.response.type;
     },
+    update: async function(datos) {
 
+        const response = await fetch(this.url + `contract/renew`, this.optionsRequest(datos));
+        const result = await response.json();
+        return result.response.type == "updated" ? true : result.response.type;
+    },
     get: async function() {
         return fetch(this.url + `bus/exists`)
             .then(response => response.json())
             .then(result => result);
     },
-    getRoutes: async function(value) {
-        return fetch(this.url + `route/get/${value}`)
-            .then(response => response.json())
-            .then(result => result);
-    },
-    getBuses: async function(value) {
-        return fetch(this.url + `bus/get/${value}`)
-            .then(response => response.json())
-            .then(result => result);
-    },
-    allByUser: async function() {
-        return fetch(this.url + `routebus/byuser`)
-            .then(response => response.json())
-            .then(result => result);
-    },
     all: async function() {
-        return fetch(this.url + `routebus/all`)
+        return fetch(this.url + `contract/all`)
+            .then(response => response.json())
+            .then(result => result);
+    },
+    list: async function() {
+        return fetch(this.url + `contract/list`)
             .then(response => response.json())
             .then(result => result);
     }

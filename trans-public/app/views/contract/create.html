@@ -1,0 +1,58 @@
+<div class="app-main__inner animated fadeIn">
+    <div class="tab-content">
+        <div class="tab-pane tabs-animation fade active show" id="tab-content-0" role="tabpanel">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 px-md-n3">
+                    <div class="main-card mb-3 card">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Crear nuevo contrato</h5>
+                            <form id="create-contract">
+                                <input type="hidden" name="idusuario">
+                                <div class="form-group">
+                                    <label for="name">Conductor (buscar por nombre o correo):<span class="required"></span> </label><br>
+                                    <small class="mt-n4">Doble click sobre el formulario para habilitarlo, si ya se ha añadido</small>
+                                    <input type="text" id="input-user" class="form-control" placeholder="Nombre completo" required>
+                                    <div id="list-user"></div>
+                                    <template id="show-user" style="display: none;">
+                    <div class="user element">
+                      <img class="img-user img-driver" src="" alt=" ">
+                      <div class="data ">
+                        <div class="name"></div>
+                        <div class="email"></div>
+                      </div>
+                    </div>
+                  </template>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1"> Fecha Inicio <span class="required"></span></label>
+                                            <input type="date" name="fechainicio" class="form-control" id="" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Fecha Finalizacion <span class="required"></span></label>
+                                            <input type="date" name="fechafin" class="form-control" id="" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="name">Empresa:<span class="required "></span> </label>
+                                    <input type="text" name="empresa" value="Transpublic" class="form-control " id=" " placeholder="Nombre del la empresa " required>
+                                </div>
+                                <div class="form-group ">
+                                    <label for="name">Sueldo:<span class="required "></span> </label>
+                                    <input type="number" name="sueldo" class="form-control " id=" " placeholder="Sueldo del empleado" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block ">Registrar Contrato! </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 "></div>
+            </div>
+        </div>
+    </div>
+</div>
